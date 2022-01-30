@@ -1,8 +1,8 @@
 import unittest
 import os
 import json
-from notal_to_cfg_autograder.src.api.functions import *
-from notal_to_cfg_autograder.src.api.visualize_cfg import convert_cfg_to_graphviz, convert_cfg_json_to_graphviz
+from notal_to_cfg_generator.src.api.functions import *
+from notal_to_cfg_generator.src.api.visualize_cfg import convert_cfg_to_graphviz, convert_cfg_json_to_graphviz
 
 
 class Integration(unittest.TestCase):

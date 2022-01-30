@@ -1,9 +1,9 @@
 import tkinter as tk
 import json
 from tkinter import messagebox
-from notal_to_cfg_autograder.src.frontend.pages.start_page import NotalSrcDir
-from notal_to_cfg_autograder.src.api.visualize_ast import *
-from notal_to_cfg_autograder.src.api.visualize_cfg import *
+from notal_to_cfg_generator.src.frontend.pages.start_page import NotalSrcDir
+from notal_to_cfg_generator.src.api.visualize_ast import *
+from notal_to_cfg_generator.src.api.visualize_cfg import *
 from PIL import Image
 
 

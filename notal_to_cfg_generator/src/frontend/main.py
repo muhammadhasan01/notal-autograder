@@ -1,5 +1,5 @@
-from notal_to_cfg_autograder.src.frontend.pages.start_page import StartPage
-from notal_to_cfg_autograder.src.frontend.pages.generator_page import *
+from notal_to_cfg_generator.src.frontend.pages.start_page import StartPage
+from notal_to_cfg_generator.src.frontend.pages.generator_page import *
 
 
 class App(tk.Tk):

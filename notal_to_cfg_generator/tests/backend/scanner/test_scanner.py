@@ -2,7 +2,7 @@ import unittest
 import os
 import json
 import re
-from notal_to_cfg_autograder.src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
+from notal_to_cfg_generator.src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
 
 
 class TestScanner(unittest.TestCase):

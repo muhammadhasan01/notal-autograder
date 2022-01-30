@@ -1,4 +1,4 @@
-from notal_to_cfg_autograder.src.backend.parser.ast import AST
+from notal_to_cfg_generator.src.backend.parser.ast import AST
 import re
 
 
