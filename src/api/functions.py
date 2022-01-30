@@ -2,7 +2,6 @@ from src.backend.parser.notal_parser import NotalParser
 from src.backend.cfg_generator.cfg_generator import *
 from src.backend.cfg_generator.ast_parser import *
 
-
 def read_src(file_path):
     with open(file_path, encoding='utf-8') as f:
         src_input = f.read()

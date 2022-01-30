@@ -1,3 +1,9 @@
+# Personal
+/exploration
+/venv
+.idea
+/temp/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
