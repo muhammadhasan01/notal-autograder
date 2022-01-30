@@ -1,7 +1,7 @@
 import ply.yacc as yacc
 import re
-from src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
-from src.backend.parser.ast import AST
+from notal_to_cfg_autograder.src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
+from notal_to_cfg_autograder.src.backend.parser.ast import AST
 
 
 class NotalParser(object):

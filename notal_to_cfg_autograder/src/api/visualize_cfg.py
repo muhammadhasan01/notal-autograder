@@ -1,5 +1,4 @@
 from graphviz import Digraph
-from src.api.functions import *
 
 
 def visualize_cfg(cfg, is_graphviz=False, output_path='test-output/result.gv'):

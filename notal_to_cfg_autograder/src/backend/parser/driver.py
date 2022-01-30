@@ -1,5 +1,4 @@
 from notal_parser import NotalParser
-from src.backend.parser.ast import AST
 import json
 
 if __name__ == "__main__":

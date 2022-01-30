@@ -1,4 +1,4 @@
-from src.backend.cfg_generator.cfg_node import *
+from notal_to_cfg_autograder.src.backend.cfg_generator.cfg_node import *
 
 
 class CFG:
