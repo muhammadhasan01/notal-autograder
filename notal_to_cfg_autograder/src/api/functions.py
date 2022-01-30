@@ -32,9 +32,9 @@ def get_ast_block(current_ast, target_type):
             return target_block
 
 
-def get_cfg(file_path):
+def get_cfg(file_path, src=None):
     try:
-        ast = get_ast(file_path)
+        ast = get_ast(file_path, src)
         return get_cfg_from_ast(ast)
     except Exception as err:
         raise err
