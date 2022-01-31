@@ -2,6 +2,7 @@ from notal_to_cfg_generator.src.backend.parser.notal_parser import NotalParser
 from notal_to_cfg_generator.src.backend.cfg_generator.cfg_generator import *
 from notal_to_cfg_generator.src.backend.cfg_generator.ast_parser import *
 
+
 def read_src(file_path):
     with open(file_path, encoding='utf-8') as f:
         src_input = f.read()
@@ -87,7 +88,7 @@ def get_ast_info(subprogram_ast):
     subprogram_name = subprogram_declaration.get_children()[0].get_notal_src()
     subprogram_implementation = subprogram_ast.get_children()[1]
     collected_ast = (
-            subprogram_declaration.get_notal_src(),
-            get_ast_block(subprogram_implementation, 'algorithm_block')
+        subprogram_declaration.get_notal_src(),
+        get_ast_block(subprogram_implementation, 'algorithm_block')
     )
     return subprogram_name, collected_ast
