@@ -34,6 +34,9 @@ class CFGNode:
     def get_adjacent(self):
         return self.adjacent
 
+    def set_label(self, label):
+        self.label = label
+
     def traverse(self, is_visited, graph):
         is_visited[self.label] = True
         if self not in graph:
