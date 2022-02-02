@@ -2,15 +2,21 @@ class CFGNode:
     def __init__(self, label, info=None, adjacent=None):
         self.info = []
         self.adjacent = []
+        self.in_nodes = []
         self.label = label
         if info and len(info) > 0:
             self.info = info
         if adjacent and len(adjacent) > 0:
             self.adjacent = adjacent
 
+    def add_in_nodes(self, node):
+        if node not in self.in_nodes:
+            self.in_nodes.append(node)
+
     def add_adjacent(self, node):
         if node not in self.adjacent:
             self.adjacent.append(node)
+            node.add_in_nodes(self)
 
     def print_info(self):
         for info in self.info:
@@ -30,6 +36,9 @@ class CFGNode:
             else:
                 str_info += f'\n{info}'
         return str_info
+
+    def get_in_nodes(self):
+        return self.in_nodes
 
     def get_adjacent(self):
         return self.adjacent
