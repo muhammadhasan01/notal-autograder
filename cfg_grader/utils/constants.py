@@ -1,3 +1,6 @@
+import math
+
+
 class Constants:
-    INF = 99999
+    INF = math.inf
     MAX_SCORE = 100
