@@ -1,9 +1,7 @@
 from cfg_grader.utils.dsu import DSU
-from cfg_grader.utils.helpers import get_count_out
 
 
 def collapse(cfg):
-    count_out = get_count_out(cfg)
     dsu = DSU(len(cfg))
 
     # Merge nodes with the same flow
@@ -15,10 +13,7 @@ def collapse(cfg):
             if len(cfg[adj_node]) > 1:
                 continue
             adj_label = adj_node.get_label()
-            if adj_label not in count_out:
-                continue
-            if count_out[adj_label] == 1:
-                print(node.get_info(), " and ", adj_node.get_info())
+            if len(adj_node.get_in_nodes()) == 1:
                 dsu.merge(label, adj_label)
 
     # Store information from merged nodes
