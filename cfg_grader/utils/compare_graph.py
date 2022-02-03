@@ -1,6 +1,6 @@
 from munkres import Munkres
 
-from cfg_grader.utils.constants import Constants
+from common.classes.constants import Constants
 from cfg_grader.utils.cost_matrix import create_cost_matrix
 from cfg_grader.utils.helpers import get_count_edges
 

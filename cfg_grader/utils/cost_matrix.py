@@ -1,4 +1,4 @@
-from cfg_grader.utils.constants import Constants
+from common.classes.constants import Constants
 
 
 def get_cost_real(a: int, b: int):
