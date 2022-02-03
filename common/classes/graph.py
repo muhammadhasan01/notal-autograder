@@ -20,8 +20,17 @@ class Graph:
     def get_edges(self):
         return self.edges
 
-    def build_from_cfg_graph(self, cfg):
+    def set_nodes(self, nodes: list[Node]):
+        self.nodes = nodes
+
+    def build_from_cfg_graph(self, cfg: dict):
         for node in cfg:
             self.add_node(node)
-            for adj_node in node.get_adjacent():
+            for adj_node in cfg[node]:
                 self.add_edges(node, adj_node)
+
+    def generate_to_cfg_graph(self):
+        cfg = {}
+        for node in self.nodes:
+            cfg[node] = node.get_adjacent()
+        return cfg
