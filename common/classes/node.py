@@ -1,4 +1,4 @@
-class CFGNode:
+class Node:
     def __init__(self, label, info=None, adjacent=None):
         self.info = []
         self.adjacent = []

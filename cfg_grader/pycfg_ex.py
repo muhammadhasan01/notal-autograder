@@ -27,10 +27,10 @@ if __name__ == '__main__':
 # 	filename2 = 'example2.py'
 # 	cfg = PyCFG() 
 # 	cfg.gen_cfg(slurp(filename).strip())
-# 	g1 = CFGNode.to_graph([])
+# 	g1 = Node.to_graph([])
 # 	cache = {}
 # 	cfg.gen_cfg(slurp(filename2).strip())
-# 	g2 = CFGNode.to_graph([])
+# 	g2 = Node.to_graph([])
 # 	print(g1)
 # 	print(g2)
 # g.draw(args.pythonfile + '.png', prog ='dot')

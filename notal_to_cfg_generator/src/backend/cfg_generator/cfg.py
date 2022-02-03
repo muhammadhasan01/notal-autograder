@@ -1,9 +1,9 @@
-from notal_to_cfg_generator.src.backend.cfg_generator.cfg_node import *
+from common.classes.node import *
 
 
 class CFG:
     def __init__(self, entry_block, exit_block):
-        # entry_block -> CFGNode, exit_block -> [CFGNode], entry_block -> exit_block must be connected
+        # entry_block -> Node, exit_block -> [Node], entry_block -> exit_block must be connected
         self.entry_block = entry_block
         self.exit_block = exit_block
 
@@ -27,8 +27,8 @@ class CFG:
         graph = {}
         self.entry_block.traverse(is_visited, graph)
 
-        start_node = CFGNode(label=num_node, info=['start: main'])
-        end_node = CFGNode(label=num_node+1, info=['end: main'])
+        start_node = Node(label=num_node, info=['start: main'])
+        end_node = Node(label=num_node + 1, info=['end: main'])
 
         graph[start_node] = [self.entry_block]
         graph[end_node] = []
