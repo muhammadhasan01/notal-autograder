@@ -1,13 +1,11 @@
 class Node:
-    def __init__(self, label, info=None, adjacent=None):
+    def __init__(self, label, info=None):
         self.info = []
         self.adjacent = []
         self.in_nodes = []
         self.label = label
         if info and len(info) > 0:
             self.info = info
-        if adjacent and len(adjacent) > 0:
-            self.adjacent = adjacent
 
     def add_in_nodes(self, node):
         if node not in self.in_nodes:
