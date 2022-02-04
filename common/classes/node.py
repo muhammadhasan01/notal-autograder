@@ -50,6 +50,9 @@ class Node:
     def set_adjacent(self, adjacent):
         self.adjacent = adjacent
 
+    def set_in_nodes(self, in_nodes):
+        self.in_nodes = in_nodes
+
     def traverse(self, is_visited, graph):
         is_visited[self.label] = True
         if self not in graph:
