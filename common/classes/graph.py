@@ -4,11 +4,28 @@ from common.classes.node import Node
 class Graph:
     def __init__(self, cfg=None):
         self.nodes: list[Node] = []
+        self.label_to_node: dict[int, Node] = {}
         if cfg is not None:
             self.build_from_cfg_graph(cfg)
 
     def add_node(self, node: Node):
         self.nodes.append(node)
+        self.label_to_node[node.get_label()] = node
+
+    def get_nodes(self):
+        return self.nodes
+
+    def get_node(self, label):
+        if label not in self.label_to_node:
+            raise KeyError("label not in graph")
+        return self.label_to_node[label]
+
+    def get_edges(self):
+        edges: list[tuple[Node, Node]] = []
+        for u in self.nodes:
+            for v in u.get_adjacent():
+                edges.append((u, v))
+        return edges
 
     def get_clone(self):
         g = Graph()
@@ -24,23 +41,10 @@ class Graph:
 
         return g
 
-    def get_edges(self):
-        edges: list[tuple[Node, Node]] = []
-        for u in self.nodes:
-            for v in u.get_adjacent():
-                edges.append((u, v))
-        return edges
-
-    def get_node(self, label):
-        if label < 1 or label > len(self.nodes):
-            raise IndexError("Label graph out of range")
-        return self.nodes[label - 1]
-
-    def get_nodes(self):
-        return self.nodes
-
     def set_nodes(self, nodes: list[Node]):
-        self.nodes = nodes
+        self.nodes = []
+        for node in nodes:
+            self.add_node(node)
 
     def build_from_cfg_graph(self, cfg: dict):
         for node in cfg:
