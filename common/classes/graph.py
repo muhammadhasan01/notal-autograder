@@ -10,12 +10,31 @@ class Graph:
     def add_node(self, node: Node):
         self.nodes.append(node)
 
+    def get_clone(self):
+        g = Graph()
+        for u in self.nodes:
+            new_node = Node(u.get_label(), u.get_info())
+            g.add_node(new_node)
+
+        for i, u in enumerate(self.nodes):
+            cur_node = g.get_node(u.get_label())
+            for v in u.get_adjacent():
+                adj_node = g.get_node(v.get_label())
+                cur_node.add_adjacent(adj_node)
+
+        return g
+
     def get_edges(self):
         edges: list[tuple[Node, Node]] = []
         for u in self.nodes:
             for v in u.get_adjacent():
                 edges.append((u, v))
         return edges
+
+    def get_node(self, label):
+        if label < 1 or label > len(self.nodes):
+            raise IndexError("Label graph out of range")
+        return self.nodes[label - 1]
 
     def get_nodes(self):
         return self.nodes
