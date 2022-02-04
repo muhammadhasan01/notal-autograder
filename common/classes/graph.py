@@ -43,6 +43,7 @@ class Graph:
 
     def set_nodes(self, nodes: list[Node]):
         self.nodes = []
+        self.label_to_node = {}
         for node in nodes:
             self.add_node(node)
 
