@@ -1,24 +1,27 @@
 from cfg_grader.utils.dsu import DSU
+from common.classes.graph import Graph
 
 
-def collapse(g):
-    dsu = DSU(len(g))
+def collapse(g: Graph):
+    nodes = g.get_nodes()
+    dsu = DSU(len(nodes))
 
     # Merge nodes with the same flow
-    for node in g:
-        if len(g[node]) > 1:
+    for node in nodes:
+        adjacent = node.get_adjacent()
+        if len(adjacent) > 1:
             continue
         label = node.get_label()
-        for adj_node in g[node]:
-            if len(g[adj_node]) > 1:
+        for adj_node in adjacent:
+            if len(adj_node.get_adjacent()) > 1:
                 continue
             adj_label = adj_node.get_label()
-            if len(adj_node.get_in_nodes()) == 1:
+            if len(adj_node.get_in_nodes()) <= 1:
                 dsu.merge(label, adj_label)
 
     # Store information from merged nodes
     add_infos = {}
-    for node in g:
+    for node in nodes:
         label = node.get_label()
         par_label = dsu.find_par(label)
         if label == par_label:
@@ -29,19 +32,18 @@ def collapse(g):
             add_infos[par_label].append(info)
 
     # Add information to parent node
-    for node in g:
+    for node in nodes:
         label = node.get_label()
         if label in add_infos:
             for info in add_infos[label]:
                 node.get_info().append(info)
 
-    # Get new adjacency list and store label to node data
-    new_adj, label_to_node = {}, {}
-    for node in g:
+    # Get new adjacency list
+    new_adj = {}
+    for node in nodes:
         label = node.get_label()
-        label_to_node[label] = node
         par_label = dsu.find_par(label)
-        for adj_node in g[node]:
+        for adj_node in node.get_adjacent():
             adj_label = adj_node.get_label()
             par_adj_label = dsu.find_par(adj_label)
             if dsu.check_same(par_label, par_adj_label):
@@ -50,18 +52,29 @@ def collapse(g):
                 new_adj[par_label] = []
             new_adj[par_label].append(par_adj_label)
 
-    # Get new graph
-    new_g = {}
-    for node in g:
+    # Reset adjacent and in nodes list for every node
+    for node in nodes:
+        node.set_adjacent([])
+        node.set_in_nodes([])
+
+    # Get new nodes and add new adjacent for every node
+    new_nodes = []
+    for node in nodes:
         label = node.get_label()
-        if label == dsu.find_par(label):
-            new_g[node] = []
-            if label in new_adj:
-                for adj_label in new_adj[label]:
-                    new_g[node].append(label_to_node[adj_label])
+        par_label = dsu.find_par(label)
+        print(label, " and ", par_label)
+        if label != par_label:
+            continue
+        new_nodes.append(node)
+        if par_label in new_adj:
+            for adj_label in new_adj[par_label]:
+                node.add_adjacent(g.get_node(adj_label))
 
-    # Re-Enumerate Label
-    for idx, node in enumerate(new_g):
+    # Relabel Node
+    print("New Nodes")
+    for idx, node in enumerate(new_nodes):
         node.set_label(idx + 1)
+        print(node.get_label(), node.get_info())
 
-    return new_g
+    # Set new node to graph
+    g.set_nodes(new_nodes)
