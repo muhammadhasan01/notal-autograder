@@ -1,7 +1,7 @@
 from munkres import Munkres
 
 from common.src.classes.constants import Constants
-from cfg_grader.src.utils.cost_matrix import create_cost_matrix
+from cfg_grader.src.grader.cost_matrix import create_cost_matrix
 from common.src.classes.graph import Graph
 
 
