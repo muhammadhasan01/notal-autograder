@@ -3,7 +3,7 @@ import subprocess
 
 char1 = '*'
 char2 = '#'
-path = "testcase/segiempat/"
+path = "segiempat/"
 
 # Input file
 # values = random.sample(range(1,50), 45)
