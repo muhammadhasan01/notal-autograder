@@ -1,11 +1,9 @@
-import json
 from os import listdir
-from os.path import isfile, join
 # from tkinter import filedialog
 from pycfg_ex import generate_cfg
 from test import compare
 from collapse_test import collapse
-from blackbox import blackbox
+from cfg_grader.testcase.blackbox import blackbox
 import xlsxwriter
 
 class Result:
