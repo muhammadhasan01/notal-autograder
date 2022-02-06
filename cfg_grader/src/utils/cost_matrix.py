@@ -1,5 +1,5 @@
-from common.classes.constants import Constants
-from common.classes.graph import Graph
+from common.src.classes.constants import Constants
+from common.src.classes.graph import Graph
 
 
 def get_cost_real(a: int, b: int):

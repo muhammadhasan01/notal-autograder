@@ -1,4 +1,4 @@
-from common.classes.node import *
+from common.src.classes.node import Node
 
 
 class CFG:
