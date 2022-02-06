@@ -3,7 +3,7 @@ from os import listdir
 from pycfg_ex import generate_cfg
 from test import compare
 from collapse_test import collapse
-from cfg_grader.testcase.blackbox import blackbox
+from cfg_grader.src.testcase.blackbox import blackbox
 import xlsxwriter
 
 class Result:

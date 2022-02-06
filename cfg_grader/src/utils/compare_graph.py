@@ -1,11 +1,11 @@
 from munkres import Munkres
 
 from common.classes.constants import Constants
-from cfg_grader.utils.cost_matrix import create_cost_matrix
+from cfg_grader.src.utils.cost_matrix import create_cost_matrix
 from common.classes.graph import Graph
 
 
-def compare(g1: Graph, g2: Graph):
+def compare_graph(g1: Graph, g2: Graph):
     munkres = Munkres()
     cost_matrix = create_cost_matrix(g1, g2)
     indexes = munkres.compute(cost_matrix)

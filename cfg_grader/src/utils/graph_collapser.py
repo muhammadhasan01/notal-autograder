@@ -1,4 +1,4 @@
-from cfg_grader.utils.dsu import DSU
+from cfg_grader.src.utils.dsu import DSU
 from common.classes.graph import Graph
 
 
