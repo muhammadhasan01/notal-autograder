@@ -1,6 +1,6 @@
 from flask_restful import Resource
 
-from web_service.utils.logz import create_logger
+from web_service.src.utils.logz import create_logger
 
 
 class HealthCheck(Resource):
