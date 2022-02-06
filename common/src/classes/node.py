@@ -1,6 +1,6 @@
 class Node:
     def __init__(self, label: int, info=None):
-        self.info: list = []
+        self.info: list[str] = []
         self.adjacent: list[Node] = []
         self.in_nodes: list[Node] = []
         self.label: int = label
