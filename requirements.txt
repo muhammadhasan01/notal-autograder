@@ -15,3 +15,4 @@ typing-extensions==3.7.4.3
 pycfg==0.1
 munkres==1.1.4
 Flask==1.1.2
+rich==11.1.0
