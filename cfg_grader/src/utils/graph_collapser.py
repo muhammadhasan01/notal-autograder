@@ -62,7 +62,6 @@ def collapse(g: Graph):
     for node in nodes:
         label = node.get_label()
         par_label = dsu.find_par(label)
-        print(label, " and ", par_label)
         if label != par_label:
             continue
         new_nodes.append(node)
@@ -71,10 +70,8 @@ def collapse(g: Graph):
                 node.add_adjacent(g.get_node(adj_label))
 
     # Relabel Node
-    print("New Nodes")
     for idx, node in enumerate(new_nodes):
         node.set_label(idx + 1)
-        print(node.get_label(), node.get_info())
 
     # Set new node to graph
     g.set_nodes(new_nodes)
