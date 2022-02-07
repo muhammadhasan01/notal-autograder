@@ -6,17 +6,24 @@ from web_service.src.utils.logz import create_logger
 
 class NotalGrader(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('srcAnswers', type=list[str], required=True, help='List of notal source answers required')
+    parser.add_argument('srcAnswer', type=list[str], required=True, help='Notal source answer required')
     parser.add_argument('src', type=str, required=True, help='Notal src required')
 
     def __init__(self):
         self.logger = create_logger()
 
-    def post(self):
+    def post(self, grade_type: str):
         data = NotalGrader.parser.parse_args()
+        src, src_answer = data["src"], None
+        if grade_type == "single":
+            src_answer = [data["srcAnswer"]]
+        elif grade_type == "multiple":
+            src_answer = data["srcAnswer"]
+        else:
+            return {'error': True, 'message': 'endpoint cannot be found'}, 404
         try:
             self.logger.info("grading notal started...")
-            score, total, details = notal_grader(data["srcAnswers"], data["src"])
+            score, total, details = notal_grader(src_answer, src)
             self.logger.info(f"Received successful grade notal with a score of {score}")
             return {
                        'error': False,

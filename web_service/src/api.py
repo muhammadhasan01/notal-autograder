@@ -8,7 +8,7 @@ app = Flask(__name__)
 api = Api(app)
 
 api.add_resource(HealthCheck, '/healthcheck')
-api.add_resource(NotalGrader, '/grade')
+api.add_resource(NotalGrader, '/grade/<string:grade_type>')
 
 if __name__ == '__main__':
     app.run(debug=True)
