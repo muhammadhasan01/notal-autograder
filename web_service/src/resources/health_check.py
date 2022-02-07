@@ -9,4 +9,4 @@ class HealthCheck(Resource):
 
     def get(self):
         self.logger.info("receiving health check endpoint")
-        return {'message': 'healthy'}, 200
+        return {'error': False, 'message': 'healthy'}, 200
