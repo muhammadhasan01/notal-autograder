@@ -28,7 +28,9 @@ class Graph:
     def get_clone(self):
         g = Graph()
         for u in self.nodes:
-            new_node = Node(u.get_label(), u.get_info())
+            new_node = Node(u.get_label())
+            for i in u.get_info():
+                new_node.add_info(i)
             g.add_node(new_node)
 
         for i, u in enumerate(self.nodes):
