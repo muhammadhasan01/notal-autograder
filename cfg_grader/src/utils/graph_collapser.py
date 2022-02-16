@@ -36,7 +36,7 @@ def collapse(g: Graph):
         label = node.get_label()
         if label in add_infos:
             for info in add_infos[label]:
-                node.get_info().append(info)
+                node.add_info(info)
 
     # Get new adjacency list
     new_adj = {}
