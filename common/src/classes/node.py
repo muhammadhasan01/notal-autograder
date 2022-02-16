@@ -11,7 +11,7 @@ class Node:
         if node not in self.in_nodes:
             self.in_nodes.append(node)
 
-    def add_info(self, information):
+    def add_info(self, information: str):
         self.info.append(information)
 
     def add_adjacent(self, node):
@@ -44,16 +44,16 @@ class Node:
     def get_adjacent(self):
         return self.adjacent
 
-    def set_label(self, label):
+    def set_label(self, label: int):
         self.label = label
 
-    def set_adjacent(self, adjacent):
+    def set_adjacent(self, adjacent: list):
         self.adjacent = adjacent
 
-    def set_in_nodes(self, in_nodes):
+    def set_in_nodes(self, in_nodes: list):
         self.in_nodes = in_nodes
 
-    def traverse(self, is_visited, graph):
+    def traverse(self, is_visited: dict[int, bool], graph: dict):
         is_visited[self.label] = True
         if self not in graph:
             graph[self] = self.adjacent
