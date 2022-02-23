@@ -10,7 +10,7 @@ api = Api(app)
 
 api.add_resource(HealthCheck, '/healthcheck')
 api.add_resource(NotalToCFG, '/notal-to-cfg')
-api.add_resource(NotalGrader, '/grade/<string:grade_type>')
+api.add_resource(NotalGrader, '/grade')
 
 if __name__ == '__main__':
     app.run(debug=True)
