@@ -1,11 +1,11 @@
 # Notal Autograder
 Author: Muhammad Hasan
 
-Algorithmic Notation Autograder using CFG Similarity.
+Algorithmic Notation Autograder using Control Flow Graph (CFG) Similarity.
 
 # Dependencies
 
-This project require having __python__ version __3.8__ or __later__.
+This project requires __python__ version __3.8__ or __later__.
 
 ## update dependencies
 ```sh
