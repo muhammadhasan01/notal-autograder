@@ -14,7 +14,9 @@ typed-ast==1.4.2
 typing-extensions==3.7.4.3
 pycfg==0.1
 munkres==1.1.4
-Flask==1.1.2
+Flask==1.1.4
+Flask-RESTful==0.3.8
+markupsafe==2.0.1
 rich==11.1.0
 future~=0.18.2
 XlsxWriter~=3.0.2
