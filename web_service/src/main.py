@@ -13,4 +13,4 @@ api.add_resource(NotalToCFG, '/notal-to-cfg')
 api.add_resource(NotalGrader, '/grade')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0")
