@@ -374,6 +374,7 @@ class NotalParser(object):
 
     def p_function_parameter_list(self, p):
         """function_parameter_list  :   function_parameter_list S_SEMI_COLON function_parameter_declaration
+                                    |   function_parameter_list S_COMMA function_parameter_declaration
                                     |   function_parameter_declaration
         """
         if len(p) == 2:
