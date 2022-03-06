@@ -616,3 +616,9 @@ class ASTParser(AST):
     def on_real_to_integer_converter(self):
         return self.on_function('realToInteger')
 
+    def on_list_function_call(self):
+        return self.get_children()[0].get_notal_src()
+
+    def on_info_function(self):
+        return self.on_function('Info')
+

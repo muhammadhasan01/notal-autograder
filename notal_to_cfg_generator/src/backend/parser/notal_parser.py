@@ -830,6 +830,7 @@ class NotalParser(object):
                                 |   math_function_call
                                 |   string_function_call
                                 |   converter_function_call
+                                |   list_function_call
         """
         p[0] = p[1]
 
@@ -934,6 +935,16 @@ class NotalParser(object):
         """
         p[0] = AST("real_to_integer_converter", [p[3]])
 
+    def p_list_function_call(self, p):
+        """list_function_call :   info_function
+        """
+        p[0] = AST("list_function_call", [p[1]])
+
+    def p_info_function(self, p):
+        """info_function    :   RW_INFO S_LEFT_BRACKET expression S_RIGHT_BRACKET
+        """
+        p[0] = AST("info_function", [p[3]])
+
     def p_error(self, p):
         raise Exception(f"Syntax error at token: {p}")
 
@@ -954,10 +965,13 @@ class NotalParser(object):
         self.parser = yacc.yacc(module=self)
 
     def get_cleaner_source(self, source):
-        return re.sub(r"\n{2,}", "\n", source)
+        res = source + "\n"
+        res = re.sub(r"\n{2,}", "\n", res)
+        res = re.sub("\t", " ", res)
+        return res
 
     def parse(self, source):
-        source = self.get_cleaner_source(source + "\n")
+        source = self.get_cleaner_source(source)
 
         lexer = NotalScanner()
         lexer = IndentLexer(lexer)
