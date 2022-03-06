@@ -957,7 +957,7 @@ class NotalParser(object):
         return re.sub(r"\n{2,}", "\n", source)
 
     def parse(self, source):
-        source = self.get_cleaner_source(source)
+        source = self.get_cleaner_source(source + "\n")
 
         lexer = NotalScanner()
         lexer = IndentLexer(lexer)
