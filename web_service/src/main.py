@@ -8,7 +8,7 @@ from web_service.src.resources.notal_to_cfg import NotalToCFG
 app = Flask(__name__)
 api = Api(app)
 
-api.add_resource(HealthCheck, '/healthcheck')
+api.add_resource(HealthCheck, '/health-check')
 api.add_resource(NotalToCFG, '/notal-to-cfg')
 api.add_resource(NotalGrader, '/grade')
 
