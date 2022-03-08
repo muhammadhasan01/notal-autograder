@@ -1,5 +1,5 @@
 # Notal Autograder
-Author: Muhammad Hasan
+**Author: Muhammad Hasan**
 
 Algorithmic Notation Autograder using Control Flow Graph (CFG) Similarity.
 
@@ -51,7 +51,7 @@ app_1  |  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 
 Note that even though it says `http://0.0.0.0:5000`, the service can only be accessed at `http://127.0.0.1:5000` or `localhost:5000`.
 
-Now you can check `localhost:5000/healthcheck` to see if it's successfully running or not.
+Now you can check `localhost:5000/health-check` to see if it's successfully running or not.
 
 <!-- TODO: Add Documentation on API -->
 
@@ -59,13 +59,13 @@ Now you can check `localhost:5000/healthcheck` to see if it's successfully runni
 
 You can also run this on python virtual environment. Follow the steps bellow:
 
-## Create new virtual env
+### Create new virtual env
 you only need to do this once
 ```sh
 python3.9 -m venv .venv
 ```
 
-## Start virtualenv
+### Start virtualenv
 On linux
 ```sh
 source .venv/bin/activate
@@ -76,7 +76,7 @@ On windows
 .venv\Scripts\activate.bat
 ```
 
-## Run Project
+### Run Project
 
 First off install all the packages first using this command:
 
@@ -90,10 +90,10 @@ Then run the service by using this command:
 PYTHONPATH=$(pwd) python3.9 web_service/src/main.py
 ```
 
-You can then try to hit the endpoint `localhost:5000/healthcheck` to see if it's working or not.
+You can then try to hit the endpoint `localhost:5000/health-check` to see if it's working or not.
 
 
-## Terminate Virtualenv
+### Terminate Virtualenv
 ```sh
 deactivate
 ```
