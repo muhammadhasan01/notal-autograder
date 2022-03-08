@@ -624,3 +624,6 @@ class ASTParser(AST):
 
     def on_info_function(self):
         return self.on_function('Info')
+
+    def on_alokasi_function(self):
+        return self.on_function('Alokasi')

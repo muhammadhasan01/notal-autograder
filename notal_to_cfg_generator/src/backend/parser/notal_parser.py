@@ -939,6 +939,7 @@ class NotalParser(object):
     def p_list_function_call(self, p):
         """list_function_call :     isempty_function
                                 |   info_function
+                                |   alokasi_function
         """
         p[0] = AST("list_function_call", [p[1]])
 
@@ -951,6 +952,11 @@ class NotalParser(object):
         """info_function    :   RW_INFO S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("info_function", [p[3]])
+
+    def p_alokasi_function(self, p):
+        """alokasi_function    :   RW_ALOKASI S_LEFT_BRACKET expression S_RIGHT_BRACKET
+        """
+        p[0] = AST("alokasi_function", [p[3]])
 
 
 
