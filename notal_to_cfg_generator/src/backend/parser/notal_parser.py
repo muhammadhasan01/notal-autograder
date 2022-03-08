@@ -937,14 +937,22 @@ class NotalParser(object):
         p[0] = AST("real_to_integer_converter", [p[3]])
 
     def p_list_function_call(self, p):
-        """list_function_call :   info_function
+        """list_function_call :     isempty_function
+                                |   info_function
         """
         p[0] = AST("list_function_call", [p[1]])
+
+    def p_isempty_function(self, p):
+        """isempty_function    :   RW_ISEMPTY S_LEFT_BRACKET expression S_RIGHT_BRACKET
+        """
+        p[0] = AST("isempty_function", [p[3]])
 
     def p_info_function(self, p):
         """info_function    :   RW_INFO S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("info_function", [p[3]])
+
+
 
     def p_error(self, p):
         raise Exception(f"Syntax error at token: {p}")

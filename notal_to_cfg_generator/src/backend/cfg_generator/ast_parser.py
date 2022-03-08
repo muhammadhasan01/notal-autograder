@@ -619,6 +619,8 @@ class ASTParser(AST):
     def on_list_function_call(self):
         return self.get_children()[0].get_notal_src()
 
+    def on_isempty_function(self):
+        return self.on_function('isempty')
+
     def on_info_function(self):
         return self.on_function('Info')
-
