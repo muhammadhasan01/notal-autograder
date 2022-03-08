@@ -109,7 +109,7 @@ class NotalScanner(object):
     t_ignore = " \t"
     t_S_LESS_THAN_EQUAL = r"(\<\=|\≤)"
     t_S_GREATER_THAN_EQUAL = r"(\>\=|\≥)"
-    t_S_NOT_EQUAL = r"(\!\=|\≠)"
+    t_S_NOT_EQUAL = r"(\!\=|\≠|\<\>)"
     t_S_ASSIGNMENT = r"(\:\=|\<\-|\←|\<\-\-)"
     t_S_UP_TO = r"\.{2}"
     t_S_RETURN = r"(\-\>|\→|\-\-\>)"
