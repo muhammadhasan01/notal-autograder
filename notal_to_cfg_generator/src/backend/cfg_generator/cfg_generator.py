@@ -67,6 +67,8 @@ class CFGGenerator:
                     raise Exception(f"Function {function_name} can't be found")
                 if 'function ' + function_name not in CFGGenerator.subprograms_ast['function']:
                     raise Exception(f"Function {function_name} can't be found")
+                if CFGGenerator.subprograms_ast['function']['function ' + function_name] is None:
+                    continue
                 function_declaration = CFGGenerator.subprograms_ast['function']['function ' + function_name][0]
                 function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name][1]
                 start_function_node = Node(self.get_label_now(), [f'start: {function_declaration}'])
@@ -144,6 +146,9 @@ class CFGGenerator:
                 raise Exception(f"Procedure {procedure_name} can't be found")
             if 'procedure ' + procedure_name not in CFGGenerator.subprograms_ast['procedure']:
                 raise Exception(f"Procedure {procedure_name} can't be found")
+            if CFGGenerator.subprograms_ast['procedure']['procedure ' + procedure_name] is None:
+                self.cfg = CFG(node, [node])
+                return
             subprogram_declaration = CFGGenerator.subprograms_ast['procedure']['procedure ' + procedure_name][0]
             subprogram_ast = CFGGenerator.subprograms_ast['procedure']['procedure ' + procedure_name][1]
             start_procedure_node = Node(self.get_label_now(), [f'start: {subprogram_declaration}'])
