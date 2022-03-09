@@ -627,3 +627,6 @@ class ASTParser(AST):
 
     def on_alokasi_function(self):
         return self.on_function('Alokasi')
+
+    def on_dealokasi_procedure(self):
+        return self.on_function('Dealokasi')

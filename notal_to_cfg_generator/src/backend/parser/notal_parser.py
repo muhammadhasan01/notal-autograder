@@ -431,7 +431,7 @@ class NotalParser(object):
         p[0] = AST("assignment_statement", [p[1], p[3]])
 
     def p_procedure_statement(self, p):
-        """procedure_statement :   input_output_procedure_statement
+        """procedure_statement :   builtin_procedure_statements
                                 |   identifier S_LEFT_BRACKET actual_parameter_list S_RIGHT_BRACKET
                                 |   identifier
         """
@@ -456,9 +456,10 @@ class NotalParser(object):
         """
         p[0] = AST("actual_parameter", [p[1]])
 
-    def p_input_output_procedure_statement(self, p):
-        """input_output_procedure_statement :   input_statement
+    def p_builtin_procedure_statements(self, p):
+        """builtin_procedure_statements     :   input_statement
                                             |   output_statement
+                                            |   dealokasi_procedure
         """
         p[0] = p[1]
 
@@ -501,6 +502,11 @@ class NotalParser(object):
         """output_statement_parameter   :   expression
         """
         p[0] = AST("output_statement_parameter", [p[1]])
+
+    def p_dealokasi_procedure(self, p):
+        """dealokasi_procedure    :   RW_DEALOKASI S_LEFT_BRACKET expression S_RIGHT_BRACKET
+        """
+        p[0] = AST("dealokasi_procedure", [p[3]])
 
     def p_function_returned_statement(self, p):
         """function_returned_statement  :   S_RETURN expression

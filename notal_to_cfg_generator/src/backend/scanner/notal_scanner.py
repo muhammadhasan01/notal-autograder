@@ -94,6 +94,7 @@ class NotalScanner(object):
         "RW_ISEMPTY",
         "RW_INFO",
         "RW_ALOKASI",
+        "RW_DEALOKASI",
         "L_BOOLEAN_TRUE",
         "L_BOOLEAN_FALSE",
         "L_REAL_NUMBER",
@@ -252,7 +253,8 @@ class NotalScanner(object):
             "false": "L_BOOLEAN_FALSE",
             "nil": "L_NIL",
             "info": "RW_INFO",
-            "alokasi": "RW_ALOKASI"
+            "alokasi": "RW_ALOKASI",
+            "dealokasi": "RW_DEALOKASI"
         }
 
         t.type = reserved.get(str(t.value).lower(), "IDENTIFIER")
