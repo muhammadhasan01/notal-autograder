@@ -461,7 +461,6 @@ class NotalParser(object):
     def p_builtin_procedure_statements(self, p):
         """builtin_procedure_statements     :   input_statement
                                             |   output_statement
-                                            |   dealokasi_procedure
         """
         p[0] = p[1]
 
@@ -505,10 +504,6 @@ class NotalParser(object):
         """
         p[0] = AST("output_statement_parameter", [p[1]])
 
-    def p_dealokasi_procedure(self, p):
-        """dealokasi_procedure    :   RW_DEALOKASI S_LEFT_BRACKET expression S_RIGHT_BRACKET
-        """
-        p[0] = AST("dealokasi_procedure", [p[3]])
 
     def p_function_returned_statement(self, p):
         """function_returned_statement  :   S_RETURN expression
@@ -839,7 +834,6 @@ class NotalParser(object):
                                 |   math_function_call
                                 |   string_function_call
                                 |   converter_function_call
-                                |   list_function_call
         """
         p[0] = p[1]
 
@@ -943,28 +937,6 @@ class NotalParser(object):
         """real_to_integer  :   RW_REALTOINTEGER S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("real_to_integer_converter", [p[3]])
-
-    def p_list_function_call(self, p):
-        """list_function_call :     isempty_function
-                                |   info_function
-                                |   alokasi_function
-        """
-        p[0] = AST("list_function_call", [p[1]])
-
-    def p_isempty_function(self, p):
-        """isempty_function    :   RW_ISEMPTY S_LEFT_BRACKET expression S_RIGHT_BRACKET
-        """
-        p[0] = AST("isempty_function", [p[3]])
-
-    def p_info_function(self, p):
-        """info_function    :   RW_INFO S_LEFT_BRACKET expression S_RIGHT_BRACKET
-        """
-        p[0] = AST("info_function", [p[3]])
-
-    def p_alokasi_function(self, p):
-        """alokasi_function    :   RW_ALOKASI S_LEFT_BRACKET expression S_RIGHT_BRACKET
-        """
-        p[0] = AST("alokasi_function", [p[3]])
 
 
 
