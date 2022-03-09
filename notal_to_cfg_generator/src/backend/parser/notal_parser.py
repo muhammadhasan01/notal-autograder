@@ -109,9 +109,10 @@ class NotalParser(object):
     def p_procedure_implementation_block(self, p):
         """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT algorithm_block
                                             | RW_KAMUS RW_LOKAL algorithm_block
+                                            | RW_KAMUS algorithm_block
         """
         children = []
-        start_index = 3 if len(p) == 4 else 4
+        start_index = len(p) - 1 if len(p) <= 3 else 4
         for i in range(start_index, len(p)):
             if p[i] and i != 7:
                 children.append(p[i])
