@@ -118,8 +118,9 @@ class NotalParser(object):
 
     def p_function_implementation(self, p):
         """function_implementation  :   function_declaration function_implementation_block
+                                    |   function_declaration
         """
-        p[0] = AST("function_implementation", [p[1], p[2]])
+        p[0] = AST("function_implementation", [p[1], p[2]] if len(p) == 3 else [p[1]])
 
     def p_function_implementation_block(self, p):
         """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT  algorithm_block
