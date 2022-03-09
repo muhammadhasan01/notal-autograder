@@ -102,8 +102,9 @@ class NotalParser(object):
 
     def p_procedure_implementation(self, p):
         """procedure_implementation :   procedure_declaration   procedure_implementation_block
+                                    |   procedure_declaration
         """
-        p[0] = AST("procedure_implementation", [p[1], p[2]])
+        p[0] = AST("procedure_implementation", [p[1], p[2]] if len(p) == 3 else [p[1]])
 
     def p_procedure_implementation_block(self, p):
         """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT algorithm_block
