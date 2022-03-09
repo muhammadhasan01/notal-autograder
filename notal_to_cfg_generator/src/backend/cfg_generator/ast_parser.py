@@ -77,7 +77,9 @@ class ASTParser(AST):
 
     def on_procedure_implementation(self):
         children = self.get_children()
-        procedure_implementation = children[0].get_notal_src() + " " + children[1].get_notal_src()
+        procedure_implementation = children[0].get_notal_src()
+        if len(children) > 1:
+            procedure_implementation += " " + children[1].get_notal_src()
         return procedure_implementation
 
     def on_procedure_implementation_algorithm(self):
@@ -94,7 +96,9 @@ class ASTParser(AST):
 
     def on_function_implementation(self):
         children = self.get_children()
-        function_implementation = children[0].get_notal_src() + " " + children[1].get_notal_src()
+        function_implementation = children[0].get_notal_src()
+        if len(children) > 1:
+            function_implementation += " " + children[1].get_notal_src()
         return function_implementation
 
     def on_function_implementation_algorithm(self):
