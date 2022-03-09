@@ -84,9 +84,12 @@ def get_ast_of_the_subprograms(procedure_and_function_implementation_block_ast):
 
 
 def get_ast_info(subprogram_ast):
-    subprogram_declaration = subprogram_ast.get_children()[0]
+    children = subprogram_ast.get_children()
+    subprogram_declaration = children[0]
     subprogram_name = subprogram_declaration.get_children()[0].get_notal_src()
-    subprogram_implementation = subprogram_ast.get_children()[1]
+    if len(children) == 1:
+        return subprogram_name, None
+    subprogram_implementation = children[1]
     collected_ast = (
         subprogram_declaration.get_notal_src(),
         get_ast_block(subprogram_implementation, 'algorithm_block')
