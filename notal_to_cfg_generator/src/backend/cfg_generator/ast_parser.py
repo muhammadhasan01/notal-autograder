@@ -28,8 +28,9 @@ class ASTParser(AST):
 
     def on_program_declaration(self):
         children = self.get_children()
-        program = 'program ' + children[0].get_notal_src() + '\n'
-        program += children[1].get_notal_src()
+        program = 'program ' + children[0].get_notal_src()
+        if len(children) > 1:
+            program += '\n' + children[1].get_notal_src()
         return program
 
     def on_program_block(self):

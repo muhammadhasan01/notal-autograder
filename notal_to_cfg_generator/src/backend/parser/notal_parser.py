@@ -15,8 +15,10 @@ class NotalParser(object):
 
     def p_program(self, p):
         """program  :   RW_PROGRAM identifier block
+                    |   function_declaration  block
+                    |   procedure_declaration block
         """
-        p[0] = AST("program_declaration", [p[2], p[3]])
+        p[0] = AST("program_declaration", [p[2], p[3]] if len(p) == 4 else [p[2]])
 
     def p_identifier_list(self, p):
         """identifier_list  : identifier_list S_COMMA identifier
