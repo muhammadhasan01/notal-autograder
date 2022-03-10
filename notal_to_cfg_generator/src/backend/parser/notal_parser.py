@@ -30,9 +30,18 @@ class NotalParser(object):
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
             p[0] = AST("identifier_list", [*curr_children, p[3]])
 
+    def p_kamus_declaration(self, p):
+        """kamus_declaration    :     RW_KAMUS
+                                |   RW_KAMUS RW_LOKAL
+        """
+        info = {
+            'name': p[1]
+        }
+        p[0] = AST("kamus_declaration", None, info)
+
     def p_block(self, p):
-        """block    :   RW_KAMUS INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block procedure_and_function_implementation_block
-                    | RW_KAMUS algorithm_block procedure_and_function_implementation_block
+        """block    :   kamus_declaration INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block procedure_and_function_implementation_block
+                    | kamus_declaration algorithm_block procedure_and_function_implementation_block
         """
         children = []
         start_index = 2 if len(p) == 4 else 3
@@ -109,14 +118,13 @@ class NotalParser(object):
         p[0] = AST("procedure_implementation", [p[1], p[2]] if len(p) == 3 else [p[1]])
 
     def p_procedure_implementation_block(self, p):
-        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT algorithm_block
-                                            | RW_KAMUS RW_LOKAL algorithm_block
-                                            | RW_KAMUS algorithm_block
+        """procedure_implementation_block   :   kamus_declaration INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT algorithm_block
+                                            | kamus_declaration algorithm_block
         """
         children = []
-        start_index = len(p) - 1 if len(p) <= 3 else 4
+        start_index = 2 if len(p) == 3 else 3
         for i in range(start_index, len(p)):
-            if p[i] and i != 7:
+            if p[i] and i != 6:
                 children.append(p[i])
         p[0] = AST("procedure_implementation_algorithm", children)
 
@@ -127,14 +135,13 @@ class NotalParser(object):
         p[0] = AST("function_implementation", [p[1], p[2]] if len(p) == 3 else [p[1]])
 
     def p_function_implementation_block(self, p):
-        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT  algorithm_block
-                                            | RW_KAMUS RW_LOKAL algorithm_block
-                                            | RW_KAMUS algorithm_block
+        """function_implementation_block    :   kamus_declaration INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT algorithm_block
+                                            | kamus_declaration algorithm_block
         """
         children = []
-        start_index = len(p) - 1 if len(p) <= 4 else 4
+        start_index = 2 if len(p) == 3 else 3
         for i in range(start_index, len(p)):
-            if p[i] and i != 7:
+            if p[i] and i != 6:
                 children.append(p[i])
         p[0] = AST("function_implementation_algorithm", children)
 
