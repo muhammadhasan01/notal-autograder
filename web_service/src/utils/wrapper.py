@@ -1,4 +1,8 @@
-def get_response(err: bool, msg: str, data: dict[str, any] = None, status_code: int = 200):
+from enum import IntEnum
+from http import HTTPStatus
+
+
+def get_response(err: bool, msg: str, data: dict[str, any] = None, status_code: IntEnum = HTTPStatus.ACCEPTED):
     return {
         "error": err,
         "message": msg,
