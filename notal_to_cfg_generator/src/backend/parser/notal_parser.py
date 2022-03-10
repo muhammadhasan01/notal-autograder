@@ -323,6 +323,7 @@ class NotalParser(object):
 
     def p_formal_parameter_section(self, p):
         """formal_parameter_section :   formal_parameter_section S_SEMI_COLON parameter_specification
+                                    |   formal_parameter_section S_COMMA parameter_specification
                                     |   parameter_specification
         """
         if len(p) == 2:
