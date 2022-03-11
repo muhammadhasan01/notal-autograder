@@ -189,6 +189,7 @@ class NotalScanner(object):
             "kamus": "RW_KAMUS",
             "lokal": "RW_LOKAL",
             "algoritma": "RW_ALGORITMA",
+            "algoritme": "RW_ALGORITMA",
             "type": "RW_TYPE",
             "constant": "RW_CONSTANT",
             "function": "RW_FUNCTION",
