@@ -188,6 +188,7 @@ class NotalParser(object):
         """subrange_option  :   identifier
                             |   constant
                             |   function_designator
+                            |   expression
         """
         p[0] = AST("subrange_value", [p[1]])
 
