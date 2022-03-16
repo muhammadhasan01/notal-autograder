@@ -1,7 +1,10 @@
 version: '3.7'
 services:
   app:
+    volumes:
+      - .:/app
+    container_name: notal-autograder
     build: .
-    restart: always
+    restart: on-failure
     ports:
       - "5000:5000"
