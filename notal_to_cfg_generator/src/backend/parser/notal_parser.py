@@ -40,8 +40,8 @@ class NotalParser(object):
         p[0] = AST("kamus_declaration", None, info)
 
     def p_block(self, p):
-        """block    :   kamus_declaration INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block procedure_and_function_implementation_block
-                    | kamus_declaration algorithm_block procedure_and_function_implementation_block
+        """block    :   RW_KAMUS INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block procedure_and_function_implementation_block
+                    | RW_KAMUS algorithm_block procedure_and_function_implementation_block
         """
         children = []
         start_index = 2 if len(p) == 4 else 3
