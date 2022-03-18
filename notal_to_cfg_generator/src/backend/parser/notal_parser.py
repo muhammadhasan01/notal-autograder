@@ -546,7 +546,6 @@ class NotalParser(object):
     def p_if_statement(self, p):
         """if_statement : RW_IF boolean_expression RW_THEN compound_statement
                         | RW_IF boolean_expression RW_THEN compound_statement RW_ELSE compound_statement
-                        | RW_IF boolean_expression RW_THEN compound_statement RW_ELSE if_statement
         """
         if len(p) == 5:
             p[0] = AST("if_statement", [p[2], p[4]])
