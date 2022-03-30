@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 
-from cfg_grader.src.grader.notal_grader import notal_grader
+from graph_grader.src.grader.notal_grader import notal_grader
 from web_service.src.utils.check_file import check_file
 from web_service.src.utils.logz import create_logger
 from web_service.src.utils.wrapper import get_response

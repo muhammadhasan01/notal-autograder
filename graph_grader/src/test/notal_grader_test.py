@@ -1,4 +1,4 @@
-from cfg_grader.src.grader.notal_grader import notal_grader
+from graph_grader.src.grader.notal_grader import notal_grader
 
 src_answers = [
     """
