@@ -1,8 +1,8 @@
 from munkres import Munkres
 
-from common.src.classes.constants import Constants
+from intermediate.src.classes.constants import Constants
 from cfg_grader.src.grader.cost_matrix import create_cost_matrix
-from common.src.classes.graph import Graph
+from intermediate.src.classes.graph import Graph
 
 
 def compare_graph(g1: Graph, g2: Graph):

@@ -1,5 +1,5 @@
 from cfg_grader.src.utils.dsu import DSU
-from common.src.classes.graph import Graph
+from intermediate.src.classes.graph import Graph
 
 
 def collapse(g: Graph):

@@ -1,6 +1,6 @@
 from cfg_grader.src.grader.compare_graph import compare_graph
 from cfg_grader.src.utils.graph_collapser import collapse
-from common.src.classes.graph import Graph
+from intermediate.src.classes.graph import Graph
 from notal_to_cfg_generator.src.api.functions import get_cfg
 
 

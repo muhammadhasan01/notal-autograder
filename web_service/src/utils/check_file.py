@@ -1,6 +1,6 @@
 from werkzeug.datastructures import FileStorage
 
-from common.src.classes.constants import Constants
+from intermediate.src.classes.constants import Constants
 
 
 def allowed_file(filename: str):
