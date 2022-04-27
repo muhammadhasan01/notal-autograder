@@ -143,9 +143,11 @@ class CFGGenerator:
         # Subprogram_cfg
         if 'procedure ' + procedure_name not in CFGGenerator.visited_subprograms_ast:
             if CFGGenerator.subprograms_ast is None:
-                raise Exception(f"Procedure {procedure_name} can't be found")
+                self.cfg = CFG(node, [node])
+                return
             if 'procedure ' + procedure_name not in CFGGenerator.subprograms_ast['procedure']:
-                raise Exception(f"Procedure {procedure_name} can't be found")
+                self.cfg = CFG(node, [node])
+                return
             if CFGGenerator.subprograms_ast['procedure']['procedure ' + procedure_name] is None:
                 self.cfg = CFG(node, [node])
                 return
