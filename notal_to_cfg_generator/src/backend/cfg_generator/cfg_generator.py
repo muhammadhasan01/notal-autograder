@@ -64,9 +64,9 @@ class CFGGenerator:
 
             if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
                 if CFGGenerator.subprograms_ast is None:
-                    raise Exception(f"Function {function_name} can't be found")
+                    continue
                 if 'function ' + function_name not in CFGGenerator.subprograms_ast['function']:
-                    raise Exception(f"Function {function_name} can't be found")
+                    continue
                 if CFGGenerator.subprograms_ast['function']['function ' + function_name] is None:
                     continue
                 function_declaration = CFGGenerator.subprograms_ast['function']['function ' + function_name][0]
