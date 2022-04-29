@@ -22,9 +22,7 @@ def test_generate_cfg():
 
 
 def test_generate_collapsed_cfg():
-    cfg = get_cfg(FILE_PATH_TEST)
-    g = Graph()
-    g.build_from_cfg_graph(cfg)
+    g = Graph(get_cfg(FILE_PATH_TEST))
     collapse(g)
     visualize_cfg(g.generate_to_cfg_graph(), False, 'test-output/cfg.gv')
 

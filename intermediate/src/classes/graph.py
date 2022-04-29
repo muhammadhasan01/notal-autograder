@@ -2,9 +2,11 @@ from intermediate.src.classes.node import Node
 
 
 class Graph:
-    def __init__(self):
+    def __init__(self, cfg=None):
         self.nodes: list[Node] = []
         self.label_to_node: dict[int, Node] = {}
+        if cfg is not None:
+            self.build_from_cfg_graph(cfg)
 
     def add_node(self, node: Node):
         self.nodes.append(node)
