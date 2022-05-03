@@ -4,6 +4,7 @@
 .idea
 /temp/
 /data/exams
+results.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
