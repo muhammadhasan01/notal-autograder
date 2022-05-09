@@ -42,11 +42,13 @@ def main():
             results.append((exam_name, nim, grade))
             logging.info(f'In {exam_name}, {nim} has a grade of {grade}')
 
-        with open(f'results.csv', 'w', encoding='UTF8', newline='') as exam_result:
-            writer = csv.writer(exam_result)
-            writer.writerow(HEADER)
-            for res in results:
-                writer.writerow(res)
+        logging.info(f'Successfully generated {len(graph_inputs) - 1} submissions on exam={exam_name}')
+
+    with open(f'results.csv', 'w', encoding='UTF8', newline='') as exam_result:
+        writer = csv.writer(exam_result)
+        writer.writerow(HEADER)
+        for res in results:
+            writer.writerow(res)
 
 
 if __name__ == "__main__":
