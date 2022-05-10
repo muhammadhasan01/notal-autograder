@@ -28,6 +28,7 @@ def main():
         for submission in input_files:
             nim = submission.split('.')[0]
             cur_path = os.path.join(cur_dir, submission)
+            logging.info(f'Generating CFG of {nim} submission in exam={exam_name}')
             graph = Graph(get_cfg(cur_path))
             collapse(graph)
             graph_inputs[nim] = graph
