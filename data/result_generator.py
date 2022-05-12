@@ -10,7 +10,9 @@ import logging
 ANSWER_NAME_FILE = 'answer'
 EXAM_DIRECTORIES = {
     'Kuis 2 IA': 'Kuis_2_IF2210_2020\\IA',
-    'Kuis 2 IB': 'Kuis_2_IF2210_2020\\IB'
+    'Kuis 2 IB': 'Kuis_2_IF2210_2020\\IB',
+    'UTS IA': 'UTS_IF2210_2020\\IA',
+    'UTS IB': 'UTS_IF2210_2020\\IB'
 }
 HEADER = ['exam_name', 'nim', 'grade']
 
