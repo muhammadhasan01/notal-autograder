@@ -686,6 +686,7 @@ class NotalParser(object):
         """variable_access : identifier
                             | indexed_variable
                             | field_designator
+                            | function_designator
         """
         p[0] = AST("variable", [p[1]])
 
