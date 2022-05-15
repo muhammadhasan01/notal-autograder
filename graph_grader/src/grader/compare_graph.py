@@ -21,6 +21,6 @@ def compare_graph(g1: Graph, g2: Graph):
     node2 = len(g2.get_nodes())
     edge1 = len(g1.get_edges())
     edge2 = len(g2.get_edges())
-    score = (1 - (total / (node1 + node2 + edge1 + edge2))) * Constants.MAX_SCORE
+    score = max(0.0, (1 - (total / (node1 + node2 + edge1 + edge2))) * Constants.MAX_SCORE)
 
     return score, total, details
