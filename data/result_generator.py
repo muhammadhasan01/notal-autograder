@@ -55,6 +55,8 @@ def main():
         for res in results:
             writer.writerow(res)
 
+    logging.info(f'Successfully generated {len(results)} result submissions')
+
 
 if __name__ == "__main__":
     main()
