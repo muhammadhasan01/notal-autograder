@@ -79,7 +79,6 @@ def get_ast_of_the_subprograms(procedure_and_function_implementation_block_ast):
         subprogram_type = 'function' if child.get_type() == 'function_implementation' else 'procedure'
         collected_ast[subprogram_type][subprogram_name] = ast_subprogram
 
-    print(collected_ast)
     return collected_ast
 
 
