@@ -11,7 +11,7 @@ ANSWER_NAME_FILE = 'answer'
 EXAM_DIRECTORIES = {
     ('Kuis 2', 'IA'): 'Kuis_2_IF2210_2020\\IA',
     ('Kuis 2', 'IB'): 'Kuis_2_IF2210_2020\\IB',
-    ('KUIS 2', 'IC'): 'Kuis_2_IF2210_2020\\IC',
+    ('Kuis 2', 'IC'): 'Kuis_2_IF2210_2020\\IC',
     ('UTS', 'IA'): 'UTS_IF2210_2020\\IA',
     ('UTS', 'IB'): 'UTS_IF2210_2020\\IB'
 }
