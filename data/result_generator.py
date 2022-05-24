@@ -16,6 +16,7 @@ EXAM_DIRECTORIES = {
     ('UTS', 'IB'): 'UTS_IF2210_2020\\IB'
 }
 HEADER = ['exam_name', 'number', 'nim', 'grade']
+RESULT_FILE_NAME = 'Grade Results'
 
 
 def main():
@@ -50,7 +51,7 @@ def main():
 
         logging.info(f'Successfully generated {len(graph_inputs) - 1} submissions on exam={exam_name}')
 
-    with open('Results.csv', 'w', encoding='UTF8', newline='') as exam_result:
+    with open(f'{RESULT_FILE_NAME}.csv', 'w', encoding='UTF8', newline='') as exam_result:
         writer = csv.writer(exam_result)
         writer.writerow(HEADER)
         for res in results:
