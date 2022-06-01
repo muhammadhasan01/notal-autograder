@@ -19,7 +19,7 @@ def check_file(file: FileStorage):
     return False, ''
 
 
-def check_request(request: Request):
+def check_grade_request(request: Request):
     request_data = request.get_json()
 
     # check request data is valid
