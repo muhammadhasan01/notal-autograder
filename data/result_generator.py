@@ -26,7 +26,7 @@ def main():
 
     for exam, dir_exam in EXAM_DIRECTORIES.items():
         exam_name, number = exam
-        logging.info(f'We got the {exam_name} and {number}')
+        logging.info(f'Grading for exam={exam_name} and number={number}')
         cur_dir = os.path.join(parent_dir, f'exams\\{dir_exam}')
         input_files = os.listdir(cur_dir)
         graph_inputs: dict[str, Graph] = {}
