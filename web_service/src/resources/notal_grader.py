@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 
 from graph_grader.src.grader.notal_grader import notal_grader
-from web_service.src.utils.check_file import check_file
+from web_service.src.utils.checker import check_file
 from web_service.src.utils.logz import create_logger
 from web_service.src.utils.wrapper import get_response
 from http import HTTPStatus
@@ -13,6 +13,8 @@ class NotalGrader(Resource):
         self.logger = create_logger()
 
     def post(self):
+        self.logger.info("receiving notal grade request")
+
         if 'src_refs' not in request.files:
             return get_response(err=True, msg='Source notal reference required', status_code=HTTPStatus.BAD_REQUEST)
         if 'src' not in request.files:

@@ -3,7 +3,7 @@ from flask import request
 
 from notal_to_cfg_generator.src.api.functions import get_cfg
 from notal_to_cfg_generator.src.api.visualize_cfg import convert_cfg_to_cfg_json
-from web_service.src.utils.check_file import check_file
+from web_service.src.utils.checker import check_file
 from web_service.src.utils.logz import create_logger
 from web_service.src.utils.wrapper import get_response
 from http import HTTPStatus
