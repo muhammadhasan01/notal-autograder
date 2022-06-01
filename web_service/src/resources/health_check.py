@@ -12,4 +12,4 @@ class HealthCheck(Resource):
 
     def get(self):
         self.logger.info("receiving health check endpoint")
-        return get_response(err=False, msg='Healthy', status_code=HTTPStatus.ACCEPTED)
+        return get_response(err=False, msg='Healthy')
