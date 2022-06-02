@@ -32,7 +32,7 @@ def check_grade_request(request_data):
         error_message = "solution must be a string"
     elif not isinstance(request_data['solutionFileName'], str):
         error_message = "solutionFileName must be a string"
-    if not isinstance(request_data['timeLimit'], int):
+    elif not isinstance(request_data['timeLimit'], int):
         error_message = "timeLimit must be an integer"
     if error_message is None:
         return False, error_message, HTTPStatus.ACCEPTED
