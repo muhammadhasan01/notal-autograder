@@ -21,7 +21,7 @@ class NotalGrader(Resource):
         request_data = request.get_json()
         err_req, msg_req, status_code_req = check_grade_request(request_data)
         if err_req:
-            return get_response(err_req, msg_req, status_code_req)
+            return get_response(err=err_req, msg=msg_req, status_code=status_code_req)
 
         encoded_references_file = request_data['references']
         references_file_names = request_data['referencesFileNames']
