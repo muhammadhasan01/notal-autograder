@@ -2,10 +2,13 @@ from flask import request
 from flask_restful import Resource
 
 from graph_grader.src.grader.notal_grader import notal_grader
-from web_service.src.utils.checker import check_file
+from notal_to_cfg_generator.src.api.functions import get_cfg
+from web_service.src.utils.checker import allowed_file, check_grade_request
 from web_service.src.utils.logz import create_logger
 from web_service.src.utils.wrapper import get_response
 from http import HTTPStatus
+import base64
+from func_timeout import func_timeout, FunctionTimedOut
 
 
 class NotalGrader(Resource):
@@ -15,30 +18,37 @@ class NotalGrader(Resource):
     def post(self):
         self.logger.info("receiving notal grade request")
 
-        if 'src_refs' not in request.files:
-            return get_response(err=True, msg='Source notal reference required', status_code=HTTPStatus.BAD_REQUEST)
-        if 'src' not in request.files:
-            return get_response(err=True, msg='Source notal submission required', status_code=HTTPStatus.BAD_REQUEST)
+        request_data = request.get_json()
+        err_req, msg_req, status_code_req = check_grade_request(request_data)
+        if err_req:
+            return get_response(err_req, msg_req, status_code_req)
 
-        notal_files_ref = request.files.getlist("src_refs")
-        notal_file_src = request.files["src"]
+        encoded_references_file = request_data['references']
+        references_file_names = request_data['referencesFileNames']
+        encoded_solution_file = request_data['solution']
+        solution_file_name = request_data['solutionFileName']
+        time_limit = request_data['timeLimit']
 
-        files = notal_files_ref + [notal_file_src]
-        for file in files:
-            err_file, msg_file = check_file(file)
-            if err_file:
-                return get_response(err=err_file, msg=msg_file, status_code=HTTPStatus.BAD_REQUEST)
+        for name_file in references_file_names + [solution_file_name]:
+            if not allowed_file(name_file):
+                return get_response(err=True,
+                                    msg=f'Request with file name={name_file} is not valid',
+                                    status_code=HTTPStatus.BAD_REQUEST)
 
-        src_refs = [src.read().decode("UTF-8") for src in notal_files_ref]
-        src = notal_file_src.read().decode("UTF-8")
+        src_refs = [base64.b64decode(ref).decode('utf-8') for ref in encoded_references_file]
+        src = base64.b64decode(encoded_solution_file).decode('utf-8')
+
         try:
             self.logger.info("CFG grading started...")
-            score, total, details = notal_grader(src_refs, src)
+            score = func_timeout(time_limit / 1000, notal_grader, args=(src_refs, src))
             self.logger.info("CFG grading successfully done!")
             return get_response(err=False,
                                 msg=f"Grading successfully done!",
-                                data={'score': score, 'total': total, 'details': details},
+                                data={'score': score},
                                 status_code=HTTPStatus.ACCEPTED)
+        except FunctionTimedOut as e:
+            self.logger.error("FunctionTimedOut exception occurred", e)
+            return get_response(err=True, msg='time limit exceeded', status_code=HTTPStatus.OK)
         except Exception as e:
             self.logger.error("An error occurred", e)
             return get_response(err=True, msg='An error occurred', status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
