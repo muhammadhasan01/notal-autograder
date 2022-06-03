@@ -46,8 +46,11 @@ class NotalGrader(Resource):
                                 msg=f"Grading successfully done!",
                                 data={'score': score},
                                 status_code=HTTPStatus.ACCEPTED)
-        except FunctionTimedOut as e:
-            self.logger.error("FunctionTimedOut exception occurred", e)
+        except SyntaxError as e:
+            self.logger.error("SyntaxError exception occurred")
+            return get_response(err=True, msg=e.msg, status_code=HTTPStatus.OK)
+        except FunctionTimedOut:
+            self.logger.error("FunctionTimedOut exception occurred")
             return get_response(err=True, msg='time limit exceeded', status_code=HTTPStatus.OK)
         except Exception as e:
             self.logger.error("An error occurred", e)

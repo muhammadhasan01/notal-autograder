@@ -9,11 +9,19 @@ def notal_grader(src_refs: list[str], src: str):
         raise ValueError("src_refs need to have at least one element")
     ret_score = 0.0
     graph_src = Graph()
-    graph_src.build_from_cfg_graph(get_cfg(None, src))
+    try:
+        cfg_src = get_cfg(None, src)
+    except Exception as e:
+        raise SyntaxError(f"solution submission got a syntax error='{e}'")
+    graph_src.build_from_cfg_graph(cfg_src)
     collapse(graph_src)
-    for src_ref in src_refs:
+    for idx, src_answer in enumerate(src_refs):
         graph_src_answer = Graph()
-        graph_src_answer.build_from_cfg_graph(get_cfg(None, src_ref))
+        try:
+            cfg_answer = get_cfg(None, src_answer)
+        except Exception as e:
+            raise SyntaxError(f"reference submission-{idx + 1} got a syntax error='{e}'")
+        graph_src_answer.build_from_cfg_graph(cfg_answer)
         collapse(graph_src_answer)
         score = compare_graph(graph_src_answer, graph_src)
         if score > ret_score:
