@@ -85,6 +85,6 @@ ALGORITMA
 """
 
 if __name__ == "__main__":
-    score, total, details = notal_grader(src_answers, src)
+    score = notal_grader(src_answers, src)
     print(score)
 

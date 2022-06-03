@@ -11,11 +11,9 @@ def compare_graph(g1: Graph, g2: Graph):
     indexes = munkres.compute(cost_matrix)
 
     total = 0
-    details = []
     for i, j in indexes:
         val = cost_matrix[i][j]
         total += val
-        details.append([i, j, val])
 
     node1 = len(g1.get_nodes())
     node2 = len(g2.get_nodes())
@@ -23,4 +21,4 @@ def compare_graph(g1: Graph, g2: Graph):
     edge2 = len(g2.get_edges())
     score = max(0.0, (1 - (total / (node1 + node2 + edge1 + edge2))) * Constants.MAX_SCORE)
 
-    return score, total, details
+    return score

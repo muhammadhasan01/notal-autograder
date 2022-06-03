@@ -45,7 +45,7 @@ def main():
         for nim, graph in graph_inputs.items():
             if nim == ANSWER_NAME_FILE:
                 continue
-            grade, _, _ = compare_graph(graph_answer, graph)
+            grade = compare_graph(graph_answer, graph)
             results.append((exam_name, number, nim, grade))
             logging.info(f'In {exam_name} - {number}, {nim} has a grade of {grade}')
 

@@ -37,8 +37,8 @@ def test_compare():
     visualize_cfg(cfg1, False, 'test-output/graph-1.gv')
     visualize_cfg(cfg2, False, 'test-output/graph-2.gv')
 
-    score, total, details = compare_graph(g1, g2)
-    print(score, total, details, sep='\n')
+    score = compare_graph(g1, g2)
+    print(score)
 
 
 def test_collapse():
