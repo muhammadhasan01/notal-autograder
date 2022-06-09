@@ -39,7 +39,9 @@ def main():
             graph_inputs[nim] = graph
 
         if ANSWER_NAME_FILE not in graph_inputs:
-            raise FileNotFoundError(f'{ANSWER_NAME_FILE}.txt not found')
+            err_message = f'{ANSWER_NAME_FILE}.txt not found'
+            logging.error(err_message)
+            raise FileNotFoundError(err_message)
 
         graph_answer = graph_inputs[ANSWER_NAME_FILE]
         for nim, graph in graph_inputs.items():
