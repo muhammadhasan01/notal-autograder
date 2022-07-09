@@ -224,7 +224,7 @@ class CFGGenerator:
         node_label = self.get_label_now()
         info = [self.get_boolean_expression('if', expression)]
         if self.use_expression_type:
-            info = ['if']
+            info = ['if-case']
         node = Node(node_label, info)
 
         # Handle function call
@@ -247,7 +247,7 @@ class CFGGenerator:
         expression = children[0]
         info = [self.get_boolean_expression('if', expression)]
         if self.use_expression_type:
-            info = ['if']
+            info = ['if-case']
         node = Node(node_label, info)
 
         # Handle function call
@@ -279,7 +279,7 @@ class CFGGenerator:
         node_label = self.get_label_now()
         info = [self.get_depend_on_info(children[0])]
         if self.use_expression_type:
-            info = ['depend-on']
+            info = ['if-case']
         node = Node(node_label, info)
 
         # depend on action list
@@ -305,7 +305,7 @@ class CFGGenerator:
         expression = children[0]
         info = [self.get_depend_on_action_expression(expression)]
         if self.use_expression_type:
-            info = ['depend-on']
+            info = ['condition-expr']
         node = Node(node_label, info)
 
         # Handle function call
@@ -327,7 +327,7 @@ class CFGGenerator:
         expression = children[0]
         info = [self.get_boolean_expression('while', expression)]
         if self.use_expression_type:
-            info = ['while']
+            info = ['loop-entry']
         node = Node(node_label, info)
 
         # Handle function call
@@ -357,7 +357,7 @@ class CFGGenerator:
         expression = children[1]
         info = [self.get_boolean_expression('until', expression)]
         if self.use_expression_type:
-            info = ['repeat/iterate-stop']
+            info = ['loop-entry']
         node = Node(node_label, info)
 
         # connect statement nodes to until node
@@ -385,7 +385,7 @@ class CFGGenerator:
         # traversal node
         node_label = self.get_label_now()
         if self.use_expression_type:
-            info = ['traversal']
+            info = ['loop-entry']
         node = Node(node_label, info)
 
         # statement nodes
@@ -416,7 +416,7 @@ class CFGGenerator:
         node_label = self.get_label_now()
         info = [self.get_repeat_times_info(children[0])]
         if self.use_expression_type:
-            info = ['repeat/iterate-stop']
+            info = ['loop-entry']
         node = Node(node_label, info)
 
         # Handle function call
@@ -443,7 +443,7 @@ class CFGGenerator:
         node_label = self.get_label_now()
         info = [self.get_boolean_expression('stop', children[1])]
         if self.use_expression_type:
-            info = ['repeat/iterate-stop']
+            info = ['loop-entry']
         node = Node(node_label, info)
 
         # Handle function call
