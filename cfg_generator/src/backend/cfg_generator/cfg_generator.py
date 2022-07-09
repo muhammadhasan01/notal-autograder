@@ -6,10 +6,11 @@ class CFGGenerator:
     subprograms_ast = None
     visited_subprograms_ast = {}
 
-    def __init__(self, algorithm_block_ast):
+    def __init__(self, algorithm_block_ast, use_expression_type=False):
         # ast -> ASTParser, cfg -> CFG
         self.state = algorithm_block_ast
         self.cfg = None
+        self.use_expression_type = use_expression_type
 
         self.build_cfg()
 
@@ -22,18 +23,18 @@ class CFGGenerator:
 
     def build_from_algorithm_block(self):
         children = self.state.get_children()
-        child_builder = CFGGenerator(children[0])
+        child_builder = CFGGenerator(children[0], self.use_expression_type)
         self.cfg = child_builder.get_cfg()
 
     def build_from_compound_statement(self):
         children = self.state.get_children()
-        child_builder = CFGGenerator(children[0])
+        child_builder = CFGGenerator(children[0], self.use_expression_type)
         self.cfg = child_builder.get_cfg()
 
     def build_from_statement_sequence(self):
         statements = self.state.get_children()
         for i in range(0, len(statements)):
-            child = CFGGenerator(statements[i])
+            child = CFGGenerator(statements[i], self.use_expression_type)
             if i == 0:
                 self.cfg = child.get_cfg()
             else:
@@ -79,7 +80,7 @@ class CFGGenerator:
                     end_function_node
                 )
 
-                function_cfg_generator = CFGGenerator(function_ast)
+                function_cfg_generator = CFGGenerator(function_ast, self.use_expression_type)
                 function_cfg = function_cfg_generator.get_cfg()
 
                 parent_node.add_adjacent(start_function_node)
@@ -100,6 +101,8 @@ class CFGGenerator:
 
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
+        if self.use_expression_type:
+            info = ['assignment']
         node = Node(node_label, info)
 
         self.connect_to_function_cfg(node, expression)
@@ -111,6 +114,8 @@ class CFGGenerator:
 
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
+        if self.use_expression_type:
+            info = ['return']
         node = Node(node_label, info)
 
         self.connect_to_function_cfg(node, expression)
@@ -134,6 +139,8 @@ class CFGGenerator:
         info = [self.state.get_notal_src()]
         procedure_name = self.get_subprogram_name(self.state.get_notal_src())
 
+        if self.use_expression_type:
+            info = ['procedure']
         node = Node(node_label, info)
 
         # Handle function call
@@ -161,7 +168,7 @@ class CFGGenerator:
                 end_procedure_node
             )
 
-            subprogram_generator = CFGGenerator(subprogram_ast)
+            subprogram_generator = CFGGenerator(subprogram_ast, self.use_expression_type)
             subprogram_cfg = subprogram_generator.get_cfg()
 
             node.add_adjacent(start_procedure_node)
@@ -185,6 +192,8 @@ class CFGGenerator:
 
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
+        if self.use_expression_type:
+            info = ['output']
         node = Node(node_label, info)
 
         self.connect_to_function_cfg(node, expression)
@@ -193,6 +202,8 @@ class CFGGenerator:
     def build_from_input_statement(self):
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
+        if self.use_expression_type:
+            info = ['input']
         node = Node(node_label, info)
         self.cfg = CFG(node, [node])
 
@@ -212,6 +223,8 @@ class CFGGenerator:
         expression = children[0]
         node_label = self.get_label_now()
         info = [self.get_boolean_expression('if', expression)]
+        if self.use_expression_type:
+            info = ['if']
         node = Node(node_label, info)
 
         # Handle function call
@@ -219,7 +232,7 @@ class CFGGenerator:
         self.cfg = CFG(node, [node])
 
         # statement nodes
-        child = CFGGenerator(children[1])
+        child = CFGGenerator(children[1], self.use_expression_type)
         cfg_child = child.get_cfg()
 
         # merge the cfg
@@ -233,17 +246,19 @@ class CFGGenerator:
         node_label = self.get_label_now()
         expression = children[0]
         info = [self.get_boolean_expression('if', expression)]
+        if self.use_expression_type:
+            info = ['if']
         node = Node(node_label, info)
 
         # Handle function call
         self.connect_to_function_cfg(node, expression)
 
         # first statement nodes
-        first_child = CFGGenerator(children[1])
+        first_child = CFGGenerator(children[1], self.use_expression_type)
         first_cfg_child = first_child.get_cfg()
 
         # second statement nodes
-        second_child = CFGGenerator(children[2])
+        second_child = CFGGenerator(children[2], self.use_expression_type)
         second_cfg_child = second_child.get_cfg()
 
         # connect conditional node to first statement
@@ -263,6 +278,8 @@ class CFGGenerator:
         # depend on node
         node_label = self.get_label_now()
         info = [self.get_depend_on_info(children[0])]
+        if self.use_expression_type:
+            info = ['depend-on']
         node = Node(node_label, info)
 
         # depend on action list
@@ -270,7 +287,7 @@ class CFGGenerator:
         exit_blocks = []
 
         for i in range(len(depend_on_actions)):
-            cfg_child = CFGGenerator(depend_on_actions[i]).get_cfg()
+            cfg_child = CFGGenerator(depend_on_actions[i], self.use_expression_type).get_cfg()
             exit_blocks += [*cfg_child.get_exit_block()]
             node.add_adjacent(cfg_child.get_entry_block())
 
@@ -287,6 +304,8 @@ class CFGGenerator:
         node_label = self.get_label_now()
         expression = children[0]
         info = [self.get_depend_on_action_expression(expression)]
+        if self.use_expression_type:
+            info = ['depend-on']
         node = Node(node_label, info)
 
         # Handle function call
@@ -294,7 +313,7 @@ class CFGGenerator:
         self.cfg = CFG(node, [node])
 
         # statement nodes
-        child = CFGGenerator(children[1])
+        child = CFGGenerator(children[1], self.use_expression_type)
         cfg_child = child.get_cfg()
 
         # merge the cfg
@@ -307,13 +326,15 @@ class CFGGenerator:
         node_label = self.get_label_now()
         expression = children[0]
         info = [self.get_boolean_expression('while', expression)]
+        if self.use_expression_type:
+            info = ['while']
         node = Node(node_label, info)
 
         # Handle function call
         self.connect_to_function_cfg(node, expression)
 
         # statement nodes
-        child = CFGGenerator(children[1])
+        child = CFGGenerator(children[1], self.use_expression_type)
         cfg_child = child.get_cfg()
 
         # connect while conditional node to statement nodes
@@ -328,13 +349,15 @@ class CFGGenerator:
         children = self.state.get_children()
 
         # statement nodes
-        child = CFGGenerator(children[0])
+        child = CFGGenerator(children[0], self.use_expression_type)
         cfg_child = child.get_cfg()
 
         # until statement
         node_label = self.get_label_now()
         expression = children[1]
         info = [self.get_boolean_expression('until', expression)]
+        if self.use_expression_type:
+            info = ['repeat/iterate-stop']
         node = Node(node_label, info)
 
         # connect statement nodes to until node
@@ -361,10 +384,12 @@ class CFGGenerator:
 
         # traversal node
         node_label = self.get_label_now()
+        if self.use_expression_type:
+            info = ['traversal']
         node = Node(node_label, info)
 
         # statement nodes
-        child = CFGGenerator(children[2])
+        child = CFGGenerator(children[2], self.use_expression_type)
         cfg_child = child.get_cfg()
 
         # connect traversal conditional node to statement nodes
@@ -390,13 +415,15 @@ class CFGGenerator:
         # repeat node
         node_label = self.get_label_now()
         info = [self.get_repeat_times_info(children[0])]
+        if self.use_expression_type:
+            info = ['repeat/iterate-stop']
         node = Node(node_label, info)
 
         # Handle function call
         self.connect_to_function_cfg(node, children[0])
 
         # statement nodes
-        child = CFGGenerator(children[1])
+        child = CFGGenerator(children[1], self.use_expression_type)
         cfg_child = child.get_cfg()
 
         # connect repeat node to its statement nodes
@@ -409,19 +436,21 @@ class CFGGenerator:
         children = self.state.get_children()
 
         # first action nodes
-        child = CFGGenerator(children[0])
+        child = CFGGenerator(children[0], self.use_expression_type)
         cfg_child = child.get_cfg()
 
         # conditional node
         node_label = self.get_label_now()
         info = [self.get_boolean_expression('stop', children[1])]
+        if self.use_expression_type:
+            info = ['repeat/iterate-stop']
         node = Node(node_label, info)
 
         # Handle function call
         self.connect_to_function_cfg(node, children[1])
 
         # second action nodes
-        child_2 = CFGGenerator(children[2])
+        child_2 = CFGGenerator(children[2], self.use_expression_type)
         cfg_child_2 = child_2.get_cfg()
 
         # connecting the nodes

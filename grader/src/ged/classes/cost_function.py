@@ -6,8 +6,7 @@ import numpy as np
 
 
 class CostFunction(ABC):
-    def __init__(self, use_node_relabel=True, do_node_precompute=False):
-        self.use_node_relabel = use_node_relabel
+    def __init__(self, do_node_precompute=False):
         self.do_node_precompute = do_node_precompute
         self.snode_size: int = None
         self.tnode_size: int = None

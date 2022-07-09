@@ -1,14 +1,15 @@
 import time
+from enum import Enum
 
 from grader.src.constants import Constants
 from grader.src.ged.classes.cost_function import CostFunction
-from grader.src.ged.classes.general_cost_function import GeneralCostFunction
+from grader.src.ged.classes.general_cost_function import GeneralCostFunction, RelabelMethod
 from grader.src.ged.classes.graph import Graph
 from grader.src.ged.dfs_ged import DFSGED
 from grader.src.ged.utils.graph_collapser import *
 
 
-class GraphPreprocessType:
+class GraphPreprocessType(Enum):
     UNCOLLAPSE = 0
     COLLAPSE = 1
     PROPAGATE_BRANCHING = 2
@@ -44,13 +45,15 @@ class Grader:
               graph_targets: list[Graph],
               time_limit: int,
               time_limit_per_unit: int,
-              use_node_relabel=True,
+              relabel_method=RelabelMethod.BOOLEAN_COUNT,
+              node_cost=1,
+              edge_cost=1,
               graph_preprocess_type=GraphPreprocessType.PROPAGATE_BRANCHING,
               use_ub=False,
               node_key: str = "label") -> tuple[list, list, list]:
         graph_source = self.__preprocess_graph(graph_source, graph_preprocess_type)
         graph_targets = [self.__preprocess_graph(graph, graph_preprocess_type) for graph in graph_targets]
-        cost_function = GeneralCostFunction(use_node_relabel=use_node_relabel, node_key=node_key)
+        cost_function = GeneralCostFunction(relabel_method=relabel_method, node_cost=node_cost, edge_cost=edge_cost, node_key=node_key)
         scores = []
         errors = []
         feedback = []

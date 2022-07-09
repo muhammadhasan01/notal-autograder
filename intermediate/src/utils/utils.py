@@ -38,8 +38,9 @@ def graph_to_grader_graph(graph: Graph):
 
 if __name__ == '__main__':
     filename = os.path.join(DATA_ROOT, 'input_examples', 'notal', 'ekspresi.in')
+    # filename = os.path.join(DATA_ROOT, 'exams', 'Kuis_2_IF2210_2020', 'IA', '10119048.txt')
     print(filename)
-    graph = Graph(get_cfg(filename))
+    graph = Graph(get_cfg(filename, use_expression_type=True))
     print(graph)
     ggraph = graph_to_grader_graph(graph)
     print(ggraph)

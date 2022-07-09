@@ -33,15 +33,15 @@ def get_ast_block(current_ast, target_type):
             return target_block
 
 
-def get_cfg(file_path, src=None):
+def get_cfg(file_path, src=None, use_expression_type=False):
     try:
         ast = get_ast(file_path, src)
-        return get_cfg_from_ast(ast)
+        return get_cfg_from_ast(ast, use_expression_type)
     except Exception as err:
         raise err
 
 
-def get_cfg_from_ast(ast_in_json):
+def get_cfg_from_ast(ast_in_json, use_expression_type=False):
     ast_parser = ASTParser(ast_dict=ast_in_json)
     main_program_ast = get_ast_block(ast_parser, 'algorithm_block')
     subprogram_implementation_block_ast = get_ast_block(ast_parser, "procedure_and_function_implementation_block")
@@ -55,7 +55,7 @@ def get_cfg_from_ast(ast_in_json):
         CFGGenerator.subprograms_ast = subprograms_ast
         CFGGenerator.visited_subprograms_ast = {}
 
-        cfg_builder = CFGGenerator(main_program_ast)
+        cfg_builder = CFGGenerator(main_program_ast, use_expression_type)
         generated_cfg = cfg_builder.get_cfg()
 
         generated_graph = generated_cfg.get_graph(CFGGenerator.label + 1)

@@ -4,22 +4,21 @@ from grader.src.ged.classes.cost_function import CostFunction
 from grader.src.ged.classes.graph_component import *
 
 
+class RelabelMethod(Enum):
+    NONE = 0
+    BOOLEAN_COUNT = 1
+    COUNTER = 2
+    DAMERAU_LD = 3  # levenshtein distance
+    EXACT = 4
+
+
 class GeneralCostFunction(CostFunction):
-    class Cost:
-        EDGE_COST = 1
-        NODE_COST = 1
-
-    class RelabelMethod(Enum):
-        NONE = 0
-        BOOLEAN_COUNT = 1
-        COUNTER = 2
-        DAMERAU_LD = 3  # levenshtein distance
-        EXACT = 4
-
-    def __init__(self, use_node_relabel=True, relabel_method=RelabelMethod.BOOLEAN_COUNT, node_key: str = "label"):
-        super().__init__(use_node_relabel)
+    def __init__(self, relabel_method=RelabelMethod.BOOLEAN_COUNT, node_cost=1, edge_cost=1, node_key: str = "label"):
+        super().__init__()
         self.relabel_method = relabel_method
         self.node_key = node_key
+        self.node_cost = node_cost
+        self.edge_cost = edge_cost
 
     def get_node_cost(self, a: Node, b: Node) -> float:
         if self.do_node_precompute:
@@ -30,35 +29,35 @@ class GeneralCostFunction(CostFunction):
             if b.is_not_eps():
                 t_id = b.get_id()
             if self.node_precompute[s_id][t_id] < 0.0:
-                self.node_precompute[s_id][t_id] = self.__calculate_node_difference(a, b) * self.Cost.NODE_COST
+                self.node_precompute[s_id][t_id] = self.__calculate_node_difference(a, b) * self.node_cost
 
             return self.node_precompute[s_id][t_id]
 
-        return self.__calculate_node_difference(a, b) * self.Cost.NODE_COST
+        return self.__calculate_node_difference(a, b) * self.node_cost
 
     def get_edge_cost(self, a: Edge, b: Edge, a_node: Node, b_node: Node) -> float:
         # check if edge is epsilon
         if a.is_eps():
             if b.is_eps():
                 return 0
-            return self.Cost.EDGE_COST
+            return self.edge_cost
         elif b.is_eps():
-            return self.Cost.EDGE_COST
+            return self.edge_cost
 
         # check if edge of the same type (direction)
         if a.get_edge_type(a_node) == b.get_edge_type(b_node):
             return 0
 
         # edge deletion
-        return 2 * self.Cost.EDGE_COST
+        return 2 * self.edge_cost
 
     def get_edges_cost(self, a: list[Edge], b: list[Edge], a_node: Node, b_node: Node) -> float:
         if a_node.is_eps():
             if b_node.is_eps():
                 return 0
-            return self.Cost.EDGE_COST * len(b)
+            return self.edge_cost * len(b)
         elif b_node.is_eps():
-            return self.Cost.EDGE_COST * len(a)
+            return self.edge_cost * len(a)
 
         type_count1 = self.count_each_edges_type(a, a_node)
         type_count2 = self.count_each_edges_type(b, b_node)
@@ -71,7 +70,7 @@ class GeneralCostFunction(CostFunction):
             remainder += type_count1[i] + type_count2[i]
             i += 1
 
-        return self.Cost.EDGE_COST * remainder
+        return self.edge_cost * remainder
 
     @classmethod
     def count_each_edges_type(cls, edges: list[Edge], node: Node):
@@ -82,9 +81,6 @@ class GeneralCostFunction(CostFunction):
         return ret
 
     def __calculate_node_difference(self, a: Node, b: Node) -> float:
-        if not self.use_node_relabel or self.relabel_method == self.RelabelMethod.NONE:
-            return 0
-
         if a.is_eps():
             if b.is_eps():
                 return 0
@@ -92,8 +88,11 @@ class GeneralCostFunction(CostFunction):
         elif b.is_eps():
             return 1
 
+        if self.relabel_method == RelabelMethod.NONE:
+            return 0
+
         key = self.node_key
-        if self.relabel_method == self.RelabelMethod.BOOLEAN_COUNT:
+        if self.relabel_method == RelabelMethod.BOOLEAN_COUNT:
             a_dict = {}
             b_dict = {}
             all_dict = {}
@@ -115,7 +114,7 @@ class GeneralCostFunction(CostFunction):
             if len(all_dict) == 0:
                 return 0
             return count / len(all_dict)
-        elif self.relabel_method == self.RelabelMethod.COUNTER:
+        elif self.relabel_method == RelabelMethod.COUNTER:
             n = len(a.info)
             m = len(b.info)
             total = n + m
@@ -142,7 +141,7 @@ class GeneralCostFunction(CostFunction):
             if total == 0:
                 return 0
             return tot_diff / total
-        elif self.relabel_method == self.RelabelMethod.DAMERAU_LD:
+        elif self.relabel_method == RelabelMethod.DAMERAU_LD:
             n = len(a.info)
             m = len(b.info)
             max_dp = n + m
@@ -179,7 +178,7 @@ class GeneralCostFunction(CostFunction):
             if max(n, m) == 0:
                 return 0
             return dp[n][m] / max(n, m)
-        elif self.relabel_method == self.RelabelMethod.EXACT:
+        elif self.relabel_method == RelabelMethod.EXACT:
             n = len(a.info)
             m = len(b.info)
             if n != m:
