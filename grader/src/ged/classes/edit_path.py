@@ -39,7 +39,7 @@ class EditPath:
         total_cost = munkres.compute(matrix)
         starred_indices = munkres.get_starred_indices()
         edit_path.first_ub = starred_indices
-        return edit_path
+        return edit_path, total_cost
 
     @classmethod
     def clone(cls, edit_path):

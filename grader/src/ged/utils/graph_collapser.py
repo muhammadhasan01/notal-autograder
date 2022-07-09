@@ -7,7 +7,7 @@ from grader.src.ged.classes.graph import Graph
 from grader.src.ged.classes.graph_component import *
 
 
-def collapse(input_graph: Graph):
+def collapse(input_graph: Graph, collapse_branch_entry=True):
     """
     Collapse graph nodes and edges if merging is possible.
 
@@ -28,6 +28,8 @@ def collapse(input_graph: Graph):
         for out_edge in out_edges:
             out_node = out_edge.to_node
             adj_id = out_node.get_id()
+            if not collapse_branch_entry and len(out_node.get_out_edges()) > 1:
+                continue
             if len(out_node.get_in_edges()) <= 1:
                 dsu.merge(id, adj_id)
 

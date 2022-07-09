@@ -92,8 +92,7 @@ class DFSGED:
         self.ub_cost = ub_cost
 
         # creates root
-        root = None
-        root = EditPath.create_root(self.cost_function, self.source, self.target)
+        root, hu_approximation = EditPath.create_root(self.cost_function, self.source, self.target)
 
         self.ub_path = EditPath.create_path(self.cost_function, self.source, self.target, root.first_ub)
         self.ub_cost = min(self.ub_path.predict_cost(), self.ub_cost)
@@ -102,7 +101,10 @@ class DFSGED:
             self.is_solution_optimal = True
             self.__search_ged(root)
 
-        return self.ub_cost
+            return self.ub_cost
+        else:
+            self.ub_cost = min(hu_approximation, self.ub_cost)
+            return self.ub_cost
 
     def normalized_ed_to_ed(self, distance):
         if distance > 1:
@@ -135,8 +137,9 @@ class DFSGED:
         sedge_size = len(self.source.edges)
         tedge_size = len(self.target.edges)
 
-        return self.ub_cost / ((snode_size + tnode_size) * self.cost_function.node_cost +
+        ret = self.ub_cost / ((snode_size + tnode_size) * self.cost_function.node_cost +
                                (sedge_size + tedge_size) * self.cost_function.edge_cost)
+        return min(1, ret)
 
     def get_similarity_score(self, func: Callable[[float], float] = None) -> float:
         if func is None:
