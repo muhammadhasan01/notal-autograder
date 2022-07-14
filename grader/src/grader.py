@@ -17,7 +17,7 @@ class GraphPreprocessType(Enum):
 
 
 class Grader:
-    def __preprocess_graph(self, graph: Graph, preproc_type):
+    def preprocess_graph(self, graph: Graph, preproc_type):
         if preproc_type == GraphPreprocessType.UNCOLLAPSE:
             graph = uncollapse(graph)
         elif preproc_type == GraphPreprocessType.COLLAPSE:
@@ -55,10 +55,10 @@ class Grader:
               edge_cost=1,
               graph_preprocess_type=GraphPreprocessType.PROPAGATE_BRANCHING,
               is_exact_computation=True,
-              use_ub=False,
+              use_ub=True,
               node_key: str = "label") -> tuple[list, list, list]:
-        graph_source = self.__preprocess_graph(graph_source, graph_preprocess_type)
-        graph_targets = [self.__preprocess_graph(graph, graph_preprocess_type) for graph in graph_targets]
+        graph_source = self.preprocess_graph(graph_source, graph_preprocess_type)
+        graph_targets = [self.preprocess_graph(graph, graph_preprocess_type) for graph in graph_targets]
         cost_function = GeneralCostFunction(relabel_method=relabel_method, node_cost=node_cost, edge_cost=edge_cost, node_key=node_key)
         scores = []
         errors = []

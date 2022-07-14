@@ -6,8 +6,10 @@ import numpy as np
 
 
 class CostFunction(ABC):
-    def __init__(self, do_node_precompute=False):
+    def __init__(self, do_node_precompute=False, node_cost=1, edge_cost=1):
         self.do_node_precompute = do_node_precompute
+        self.node_cost = node_cost
+        self.edge_cost = edge_cost
         self.snode_size: int = None
         self.tnode_size: int = None
         self.node_precompute: list[list] = None

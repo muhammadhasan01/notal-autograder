@@ -10,11 +10,15 @@ class GraphComponent:
         return self.component_id
 
     def is_eps(self):
-        return self.get_id() is None
+        return self.get_id() == -1
 
     def is_not_eps(self):
-        return self.get_id() is not None
+        return self.get_id() != -1
 
+    def __eq__(self, other):
+        if isinstance(other, GraphComponent):
+            return self.get_id() == other.get_id()
+        return False
 
 class Node(GraphComponent):
     def __init__(self, component_id=None, info=[]):

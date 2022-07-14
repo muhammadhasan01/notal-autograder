@@ -14,11 +14,9 @@ class RelabelMethod(Enum):
 
 class GeneralCostFunction(CostFunction):
     def __init__(self, relabel_method=RelabelMethod.BOOLEAN_COUNT, node_cost=1, edge_cost=1, node_key: str = "label"):
-        super().__init__()
+        super().__init__(node_cost=node_cost, edge_cost=edge_cost)
         self.relabel_method = relabel_method
         self.node_key = node_key
-        self.node_cost = node_cost
-        self.edge_cost = edge_cost
 
     def get_node_cost(self, a: Node, b: Node) -> float:
         if self.do_node_precompute:

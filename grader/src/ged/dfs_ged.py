@@ -145,3 +145,45 @@ class DFSGED:
         if func is None:
             return 1 - self.get_normalized_edit_distance()
         return func(1 - self.get_normalized_edit_distance())
+
+    def is_valid_exact_computation(self):
+        EPS = 1e-5
+        total_cost = 0.0
+
+        for node1 in self.source.nodes:
+            if node1.get_id() not in self.ub_path.snode_mapping:
+                return False
+            node2 = self.ub_path.snode_mapping[node1.get_id()]
+            total_cost += self.cost_function.get_node_cost(node1, node2)
+        for node2 in self.target.nodes:
+            if node2.get_id() not in self.ub_path.tnode_mapping:
+                return False
+            node1 = self.ub_path.tnode_mapping[node2.get_id()]
+            if node1.is_eps():
+                total_cost += self.cost_function.get_node_cost(node1, node2)
+
+        for edge1 in self.source.edges:
+            if edge1.get_id() not in self.ub_path.sedge_mapping:
+                return False
+            edge2 = self.ub_path.sedge_mapping[edge1.get_id()]
+            if edge2.is_eps():
+                total_cost += self.cost_function.edge_cost
+            else:
+                if edge2.from_node == self.ub_path.snode_mapping[edge1.from_node.get_id()] and \
+                        edge2.to_node == self.ub_path.snode_mapping[edge1.to_node.get_id()]:
+                    continue
+                total_cost += self.cost_function.edge_cost * 2
+        for edge2 in self.target.edges:
+            if edge2.get_id() not in self.ub_path.tedge_mapping:
+                return False
+            edge1 = self.ub_path.tedge_mapping[edge2.get_id()]
+            if edge1.is_eps():
+                total_cost += self.cost_function.edge_cost
+            else:
+                if edge1.from_node == self.ub_path.tnode_mapping[edge2.from_node.get_id()] and \
+                        edge1.to_node == self.ub_path.tnode_mapping[edge2.to_node.get_id()]:
+                    continue
+                total_cost += self.cost_function.edge_cost * 2
+
+        diff = abs(self.ub_cost - total_cost)
+        return diff <= EPS

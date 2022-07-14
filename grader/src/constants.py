@@ -8,8 +8,8 @@ class Constants:
 
     FIRST_UB = []
 
-    EDGE_EPS = Edge()
-    NODE_EPS = Node()
+    EDGE_EPS = Edge(-1)
+    NODE_EPS = Node(-1)
 
     node_cost_matrix: list[list] = None
     edge_cost_matrix: list[list] = None

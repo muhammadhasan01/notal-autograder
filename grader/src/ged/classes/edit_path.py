@@ -167,77 +167,59 @@ class EditPath:
 
         self.__total_cost += self.__cost_function.get_node_cost(node1, node2)
         if node1.is_not_eps():
-            self.snode_mapping[node1] = node2
+            self.snode_mapping[node1.get_id()] = node2
             self.__use_source_node(node1)
         if node2.is_not_eps():
-            self.tnode_mapping[node2] = node1
+            self.tnode_mapping[node2.get_id()] = node1
             self.__use_target_node(node2)
 
         if node1.is_eps() and node2.is_eps():
             return
 
         # handle edges
-        # node deletion
-        if node2.is_eps():
-            for edge1 in node1.edges:
-                onode1 = edge1.get_other_end(node1)
-                if onode1 in self.snode_mapping:
-                    self.__add_edge_mapping(edge1, Constants.EDGE_EPS, node1, Constants.NODE_EPS)
-            return
-
-        # node insertion
-        if node1.is_eps():
-            for edge2 in node2.edges:
-                onode2 = edge2.get_other_end(node2)
-                if onode2 in self.tnode_mapping:
-                    self.__add_edge_mapping(Constants.EDGE_EPS, edge2, Constants.NODE_EPS, node2)
-            return
-
         for edge1 in node1.edges:
-            onode1 = edge1.get_other_end(node1)
-            is_out_edge = edge1.from_node.get_id() == node1.get_id()
-            if onode1 in self.snode_mapping:
-                onode2 = self.snode_mapping[onode1]
-                if onode2.is_eps():
-                    self.__add_edge_mapping(edge1, Constants.EDGE_EPS, node1, Constants.NODE_EPS)
-                else:
-                    edge2 = None
-                    if is_out_edge:
-                        edge2 = node2.get_edge_to(onode2)
-                    else:
-                        edge2 = onode2.get_edge_to(node2)
-
-                    if edge2 is None:
-                        self.__add_edge_mapping(edge1, Constants.EDGE_EPS, node1, Constants.NODE_EPS)
-                    else:
-                        self.__add_edge_mapping(edge1, edge2, node1, node2)
-
+            from_node1 = edge1.from_node
+            to_node1 = edge1.to_node
+            if from_node1.get_id() in self.snode_mapping and \
+                    to_node1.get_id() in self.snode_mapping and \
+                    edge1.get_id() not in self.sedge_mapping:
+                from_node2 = self.snode_mapping[from_node1.get_id()]
+                to_node2 = self.snode_mapping[to_node1.get_id()]
+                edge2 = from_node2.get_edge_to(to_node2)
+                if edge2 is None:
+                    edge2 = Constants.EDGE_EPS
+                self.__add_edge_mapping(edge1, edge2)
         for edge2 in node2.edges:
-            onode2 = edge2.get_other_end(node2)
-            is_out_edge = edge2.from_node.get_id() == node2.get_id()
-            if onode2 in self.tnode_mapping:
-                onode1 = self.tnode_mapping[onode2]
-                if onode1.is_not_eps():
-                    edge1 = None
-                    if is_out_edge:
-                        edge1 = node1.get_edge_to(onode1)
-                    else:
-                        edge1 = onode1.get_edge_to(node1)
+            from_node2 = edge2.from_node
+            to_node2 = edge2.to_node
+            if from_node2.get_id() in self.tnode_mapping and \
+                    to_node2.get_id() in self.tnode_mapping and \
+                    edge2.get_id() not in self.tedge_mapping:
+                from_node1 = self.tnode_mapping[from_node2.get_id()]
+                to_node1 = self.tnode_mapping[to_node2.get_id()]
+                edge1 = from_node1.get_edge_to(to_node1)
+                if edge1 is None:
+                    edge1 = Constants.EDGE_EPS
+                self.__add_edge_mapping(edge1, edge2)
 
-                    if edge1 is None:
-                        self.__add_edge_mapping(Constants.EDGE_EPS, edge2, Constants.NODE_EPS, node2)
-                else:
-                    self.__add_edge_mapping(Constants.EDGE_EPS, edge2, Constants.NODE_EPS, node2)
-
-    def __add_edge_mapping(self, edge1: Edge, edge2: Edge, node1: Node, node2: Node):
+    def __add_edge_mapping(self, edge1: Edge, edge2: Edge):
         self.__is_heuristic_computed = False
 
-        self.__total_cost += self.__cost_function.get_edge_cost(edge1, edge2, node1, node2)
+        if edge1.is_eps():
+            if edge2.is_not_eps():
+                self.__total_cost += self.__cost_function.edge_cost
+        elif edge2.is_eps():
+            self.__total_cost += self.__cost_function.edge_cost
+        else:
+            if edge2.from_node != self.snode_mapping[edge1.from_node.get_id()] or \
+                    edge2.to_node != self.snode_mapping[edge1.to_node.get_id()]:
+                self.__total_cost += self.__cost_function.edge_cost + self.__cost_function.edge_cost
+
         if edge1.is_not_eps():
-            self.sedge_mapping[edge1] = edge2
+            self.sedge_mapping[edge1.get_id()] = edge2
             self.__use_source_edge(edge1)
         if edge2.is_not_eps():
-            self.tedge_mapping[edge2] = edge1
+            self.tedge_mapping[edge2.get_id()] = edge1
             self.__use_target_edge(edge2)
 
     def __build_node_matrix(self, nodes1: list[Node], nodes2: list[Node]):
