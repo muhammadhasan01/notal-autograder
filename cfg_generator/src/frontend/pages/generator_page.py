@@ -2,10 +2,10 @@ import tkinter as tk
 import json
 from tkinter import messagebox
 
-from notal_to_cfg_generator.src.api.functions import read_src, get_cfg_from_ast, get_ast
-from notal_to_cfg_generator.src.frontend.pages.start_page import NotalSrcDir
-from notal_to_cfg_generator.src.api.visualize_ast import *
-from notal_to_cfg_generator.src.api.visualize_cfg import *
+from cfg_generator.src.api.functions import read_src, get_cfg_from_ast, get_ast
+from cfg_generator.src.frontend.pages.start_page import NotalSrcDir
+from cfg_generator.src.api.visualize_ast import *
+from cfg_generator.src.api.visualize_cfg import *
 from PIL import Image
 
 

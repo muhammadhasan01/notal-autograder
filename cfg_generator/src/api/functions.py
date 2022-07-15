@@ -1,6 +1,6 @@
-from notal_to_cfg_generator.src.backend.parser.notal_parser import NotalParser
-from notal_to_cfg_generator.src.backend.cfg_generator.cfg_generator import *
-from notal_to_cfg_generator.src.backend.cfg_generator.ast_parser import *
+from cfg_generator.src.backend.parser.notal_parser import NotalParser
+from cfg_generator.src.backend.cfg_generator.cfg_generator import *
+from cfg_generator.src.backend.cfg_generator.ast_parser import *
 
 
 def read_src(file_path):

@@ -1,5 +1,5 @@
-from notal_to_cfg_generator.src.frontend.pages.start_page import StartPage
-from notal_to_cfg_generator.src.frontend.pages.generator_page import *
+from cfg_generator.src.frontend.pages.start_page import StartPage
+from cfg_generator.src.frontend.pages.generator_page import *
 
 
 class App(tk.Tk):

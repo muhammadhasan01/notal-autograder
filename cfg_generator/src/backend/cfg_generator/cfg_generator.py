@@ -1,4 +1,4 @@
-from notal_to_cfg_generator.src.backend.cfg_generator.cfg import *
+from cfg_generator.src.backend.cfg_generator.cfg import *
 
 
 class CFGGenerator:

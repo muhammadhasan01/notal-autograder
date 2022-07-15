@@ -1,9 +1,9 @@
 from graph_grader.src.grader.compare_graph import compare_graph
 from graph_grader.src.utils.graph_collapser import collapse
 from intermediate.src.classes.graph import Graph
-from notal_to_cfg_generator.src.api.functions import *
-from notal_to_cfg_generator.src.api.visualize_ast import visualize_ast
-from notal_to_cfg_generator.src.api.visualize_cfg import visualize_cfg
+from cfg_generator.src.api.functions import *
+from cfg_generator.src.api.visualize_ast import visualize_ast
+from cfg_generator.src.api.visualize_cfg import visualize_cfg
 
 FILE_PATH_TEST = 'test.in'
 FILE_PATH_ONE = 'input_1.in'
