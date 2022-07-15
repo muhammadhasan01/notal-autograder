@@ -36,6 +36,11 @@ class DFSGED:
 
         self.is_solution_optimal = False
 
+    def reset(self):
+        self.ub_path: EditPath = None
+        self.ub_cost: float = Constants.INF
+        self.is_solution_optimal = False
+
     def set_time_limit(self, time_limit):
         self.__time_limit = time_limit
 

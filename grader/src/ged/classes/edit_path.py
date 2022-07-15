@@ -1,3 +1,5 @@
+import copy
+
 from grader.src.ged.classes.graph import Graph
 from grader.src.ged.classes.graph_component import *
 from grader.src.ged.classes.cost_function import CostFunction
@@ -55,11 +57,11 @@ class EditPath:
         cloned.__heuristic_type = edit_path.__heuristic_type
         cloned.__heuristic_cost = edit_path.__heuristic_cost
         cloned.__is_heuristic_computed = edit_path.__is_heuristic_computed
-        cloned.first_ub = edit_path.first_ub
-        cloned.snode_mapping = copy.deepcopy(edit_path.snode_mapping)
-        cloned.sedge_mapping = copy.deepcopy(edit_path.sedge_mapping)
-        cloned.tnode_mapping = copy.deepcopy(edit_path.tnode_mapping)
-        cloned.tedge_mapping = copy.deepcopy(edit_path.tedge_mapping)
+        cloned.first_ub = copy.deepcopy(edit_path.first_ub)
+        cloned.snode_mapping = {k: v for k, v in edit_path.snode_mapping.items()}
+        cloned.sedge_mapping = {k: v for k, v in edit_path.sedge_mapping.items()}
+        cloned.tnode_mapping = {k: v for k, v in edit_path.tnode_mapping.items()}
+        cloned.tedge_mapping = {k: v for k, v in edit_path.tedge_mapping.items()}
 
         return cloned
 
@@ -107,6 +109,62 @@ class EditPath:
             self.__heuristic_cost = self.compute_heuristic_lsap()
         return self.__heuristic_cost
 
+    def __compute_node_map_heuristic(self, node1: Node, node2: Node):
+        if node1.is_eps() and node2.is_eps():
+            return 0
+
+        total_cost = self.__cost_function.get_node_cost(node1, node2)
+
+        out_pair_edges1 = {}
+        in_pair_edges1 = {}
+        self_loop_count = 0
+        arbitrary1 = []
+        arbitrary2 = []
+
+        def add(l, key, diff=1):
+            if key not in l:
+                l[key] = 0
+            l[key] += diff
+
+        for edge1 in node1.edges:
+            edge_type = edge1.get_edge_type(node1)
+            onode1 = edge1.get_other_end(node1)
+            if edge_type == 2:
+                self_loop_count += 1
+                continue
+
+            if onode1.get_id() not in self.snode_mapping:
+                if edge_type == 0:
+                    arbitrary1.append(edge1)
+            else:
+                onode2 = self.snode_mapping[onode1.get_id()]
+                if edge_type == 0:
+                    add(out_pair_edges1, onode2.get_id())
+                elif edge_type == 1:
+                    add(in_pair_edges1, onode2.get_id())
+
+        for edge2 in node2.edges:
+            edge_type = edge2.get_edge_type(node2)
+            onode2 = edge2.get_other_end(node2)
+            if edge_type == 2:
+                self_loop_count -= 1
+                continue
+
+            if onode2.get_id() not in self.tnode_mapping:
+                if edge_type == 0:
+                    arbitrary2.append(edge2)
+            else:
+                if edge_type == 0:
+                    add(out_pair_edges1, onode2.get_id(), -1)
+                elif edge_type == 1:
+                    add(in_pair_edges1, onode2.get_id(), -1)
+
+        erased = sum([abs(count) for count in out_pair_edges1.values()]) \
+                 + sum([abs(count) for count in in_pair_edges1.values()]) \
+                 + abs(self_loop_count) + abs(len(arbitrary1) - len(arbitrary2))
+        total_cost += erased * self.__cost_function.edge_cost
+        return total_cost
+
     def compute_heuristic_lsap(self):
         node_size1 = len(self.pending_nodes1)
         node_size2 = len(self.pending_nodes2)
@@ -120,14 +178,11 @@ class EditPath:
             node1 = Constants.NODE_EPS
             if i < node_size1:
                 node1 = self.pending_nodes1[i]
-            edges1 = node1.get_out_edges()
             for j in range(msize):
                 node2 = Constants.NODE_EPS
                 if j < node_size2:
                     node2 = self.pending_nodes2[j]
-                edges2 = node2.get_out_edges()
-                matrix[i][j] = self.__cost_function.get_node_cost(node1, node2) \
-                               + self.__cost_function.get_edges_cost(edges1, edges2, node1, node2)
+                matrix[i][j] = self.__compute_node_map_heuristic(node1, node2)
 
         return Munkres().compute(matrix)
 
