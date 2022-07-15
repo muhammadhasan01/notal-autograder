@@ -24,7 +24,7 @@ def test_generate_cfg():
 def test_generate_collapsed_cfg():
     g = Graph(get_cfg(FILE_PATH_TEST))
     collapse(g)
-    visualize_cfg(g.generate_to_cfg_graph(), False, 'test-output/cfg.gv')
+    visualize_cfg(g.generate_to_cfg_graph(), False, 'test-output/cfg-collapsed.gv')
 
 
 def test_compare():
