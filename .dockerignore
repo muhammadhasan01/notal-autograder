@@ -3,5 +3,5 @@
 /venv
 .idea
 /temp/
-/data/exams
+/data
 Grade Results.csv
