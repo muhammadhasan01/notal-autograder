@@ -11,7 +11,7 @@ class Description(Resource):
     def get(self):
         self.logger.info("receiving description endpoint")
         return get_response(err=False, msg='success', data={
-            "imageName": "mhasan01/notal-autograder:v3.0",
+            "imageName": "mhasan01/notal-autograder:3.0",
             "displayedName": "Algorithmic Notation Autograder",
             "description": "Algorithmic Notation Autograder using Control Flow Graph (CFG) Similarity."
         })
