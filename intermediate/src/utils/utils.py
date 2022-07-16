@@ -5,7 +5,7 @@ from intermediate.src.classes.graph import Graph
 
 from grader.src.ged.classes.graph import Graph as GGraph
 from grader.src.ged.classes.graph_component import Node as GNode, Edge as GEdge
-from notal_to_cfg_generator.src.api.functions import get_cfg
+from cfg_generator.src.api.functions import get_cfg
 
 
 def graph_to_grader_graph(graph: Graph):

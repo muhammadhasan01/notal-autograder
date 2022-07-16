@@ -11,7 +11,7 @@ from graph_grader.src.grader.compare_graph import compare_graph
 from graph_grader.src.utils.graph_collapser import collapse
 from intermediate.src.classes.graph import Graph
 from intermediate.src.utils.utils import graph_to_grader_graph
-from notal_to_cfg_generator.src.api.functions import get_cfg
+from cfg_generator.src.api.functions import get_cfg
 import logging
 
 ANSWER_NAME_FILE = 'answer'

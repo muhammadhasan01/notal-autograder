@@ -12,7 +12,7 @@ from grader.src.grader import GraphPreprocessType
 from graph_grader.src.grader.compare_graph import compare_graph
 from intermediate.src.classes.graph import Graph as IGraph
 from intermediate.src.utils.utils import graph_to_grader_graph
-from notal_to_cfg_generator.src.api.functions import get_cfg
+from cfg_generator.src.api.functions import get_cfg
 import logging
 
 ANSWER_NAME_FILE = 'answer'
