@@ -1,7 +1,7 @@
 import base64
 
 from flask_restful import Resource
-from flask import request
+from flask import request, json
 from func_timeout import func_timeout, FunctionTimedOut
 
 from cfg_generator.src.api.functions import get_cfg
@@ -19,7 +19,7 @@ class NotalToCFG(Resource):
     def post(self):
         self.logger.info("receiving notal to cfg request")
 
-        request_data = request.get_json()
+        request_data = json.loads(request.data.decode('utf-8'))
         err_req, msg_req, status_code_req = check_notal_to_cfg_request(request_data)
         if err_req:
             return get_response(err=err_req, msg=msg_req, status_code=status_code_req)

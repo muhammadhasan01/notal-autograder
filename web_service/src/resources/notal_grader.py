@@ -1,8 +1,9 @@
-from flask import request
+import json
+
+from flask import request, json
 from flask_restful import Resource
 
 from graph_grader.src.grader.notal_grader import notal_grader
-from cfg_generator.src.api.functions import get_cfg
 from web_service.src.utils.checker import allowed_file, check_grade_request
 from web_service.src.utils.logz import create_logger
 from web_service.src.utils.wrapper import get_response
@@ -18,7 +19,7 @@ class NotalGrader(Resource):
     def post(self):
         self.logger.info("receiving notal grade request")
 
-        request_data = request.get_json()
+        request_data = json.loads(request.data.decode('utf-8'))
         err_req, msg_req, status_code_req = check_grade_request(request_data)
         if err_req:
             return get_response(err=err_req, msg=msg_req, status_code=status_code_req)
