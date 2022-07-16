@@ -29,6 +29,7 @@ class DFSGED:
         # time limit in milliseconds
         self.__start_time = None
         self.__time_limit = time_limit
+        self.time_spent = 0.0
 
         # bound
         self.ub_path: EditPath = None
@@ -105,6 +106,8 @@ class DFSGED:
         if is_exact_computation:
             self.is_solution_optimal = True
             self.__search_ged(root)
+            self.time_spent = (time.time_ns() - self.__start_time) // 1000000
+            self.time_spent = min(self.time_spent, self.__time_limit)
 
             return self.ub_cost
         else:
