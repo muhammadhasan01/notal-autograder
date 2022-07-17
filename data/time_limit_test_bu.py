@@ -165,6 +165,9 @@ class Grader:
         return score, time_spent, is_guaranteed_optimal, node_count1, node_count2
 
 
+last_df = pd.DataFrame()
+
+
 def main_test(relabel_method=RelabelMethod.BOOLEAN_COUNT,
               graph_preprocess_type=GraphPreprocessType.COLLAPSE,
               node_cost=1,
@@ -173,6 +176,8 @@ def main_test(relabel_method=RelabelMethod.BOOLEAN_COUNT,
               write_csv=True,
               time_limit=3000,
               filename='Something.csv'):
+    global last_df
+
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     results: list[tuple[str, str, str, str]] = []
@@ -200,18 +205,28 @@ def main_test(relabel_method=RelabelMethod.BOOLEAN_COUNT,
         for nim, graph in graph_inputs.items():
             if nim == ANSWER_NAME_FILE:
                 continue
-            grade, time_spent, is_guaranteed_optimal, node_count1, node_count2 = grader.grade(graph, [graph_answer],
-                                                                                              time_limit,
-                                                                                              time_limit,
-                                                                                              relabel_method=relabel_method,
-                                                                                              graph_preprocess_type=graph_preprocess_type,
-                                                                                              node_cost=node_cost,
-                                                                                              edge_cost=edge_cost,
-                                                                                              is_exact_computation=is_exact_computation)
-            results.append(
-                (exam_name, number, nim, grade, time_spent, is_guaranteed_optimal, node_count1, node_count2))
-            logging.info(f'In {exam_name} - {number}, {nim} time spent: {time_spent}')
-            logging.info(f'In {exam_name} - {number}, {nim} has a grade of {grade}')
+            rows = last_df.loc[
+                (last_df['nim'] == int(nim)) & (last_df['exam_name'] == exam_name) & (last_df['number'] == number)]
+            if str(rows.iloc[0]['is_guaranteed_optimal']) == 'False':
+                grade, time_spent, is_guaranteed_optimal, node_count1, node_count2 = grader.grade(graph, [graph_answer],
+                                                                                                  time_limit,
+                                                                                                  time_limit,
+                                                                                                  relabel_method=relabel_method,
+                                                                                                  graph_preprocess_type=graph_preprocess_type,
+                                                                                                  node_cost=node_cost,
+                                                                                                  edge_cost=edge_cost,
+                                                                                                  is_exact_computation=is_exact_computation)
+                results.append(
+                    (exam_name, number, nim, grade, time_spent, is_guaranteed_optimal, node_count1, node_count2))
+                logging.info(f'In {exam_name} - {number}, {nim} time spent: {time_spent}')
+                logging.info(f'In {exam_name} - {number}, {nim} has a grade of {grade}')
+            else:
+                row = rows.iloc[0]
+                grade, time_spent, is_guaranteed_optimal, node_count1, node_count2 = \
+                    row['grade'], row['time_spent'], row['is_guaranteed_optimal'], row['node_count1'], row['node_count2']
+                results.append(
+                    (exam_name, number, nim, grade, time_spent, is_guaranteed_optimal, node_count1, node_count2))
+                logging.info(f'In {exam_name} - {number}, {nim} has a grade of {grade}')
 
         logging.info(f'Successfully generated {len(graph_inputs) - 1} submissions on exam={exam_name}')
 
@@ -228,6 +243,8 @@ def main_test(relabel_method=RelabelMethod.BOOLEAN_COUNT,
 
 
 def main(time_limit):
+    global last_df
+
     is_exact_computation = True
     node_cost = 3
     edge_cost = 1
@@ -246,8 +263,11 @@ def main(time_limit):
         main_test(relabel_method=relabel_method, graph_preprocess_type=graph_preprocess_type,
                   node_cost=node_cost, edge_cost=edge_cost, is_exact_computation=is_exact_computation,
                   time_limit=time_limit, filename=filename)
+    else:
+        last_df = pd.read_csv(filename)
+        last_df['nim'] = last_df['nim'].astype('int')
 
 
 if __name__ == "__main__":
-    for time_limit in [1000, 3000, 10000]:
+    for time_limit in [1000, 3000, 10000, 50000]:
         main(time_limit)

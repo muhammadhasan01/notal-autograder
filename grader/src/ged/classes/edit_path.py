@@ -232,6 +232,15 @@ class EditPath:
             return
 
         # handle edges
+        # if node1.is_eps() or node2.is_eps():
+        #     for edge1 in node1.edges:
+        #         if edge1.get_id() not in self.sedge_mapping:
+        #             self.__add_edge_mapping(edge1, Constants.EDGE_EPS)
+        #     for edge2 in node2.edges:
+        #         if edge2.get_id() not in self.tedge_mapping:
+        #             self.__add_edge_mapping(Constants.EDGE_EPS, edge2)
+        #     return
+
         for edge1 in node1.edges:
             from_node1 = edge1.from_node
             to_node1 = edge1.to_node

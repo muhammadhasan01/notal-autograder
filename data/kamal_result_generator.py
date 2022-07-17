@@ -146,7 +146,7 @@ def test_coef(relabel_method, graph_preprocess_type, node_cost, edge_cost):
 
 if __name__ == "__main__":
     # main()
-    coef_training_main()
+    # coef_training_main()
     # test_coef(RelabelMethod.BOOLEAN_COUNT, GraphPreprocessType.UNCOLLAPSE, 0.8584438636207447, 0.5129075287143761)
     for is_exact_computation in [False, True]:
         for edge_cost in range(1, 4):
