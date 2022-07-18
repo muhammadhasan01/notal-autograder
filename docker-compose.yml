@@ -5,6 +5,8 @@ services:
       - .:/app
     container_name: notal-autograder
     build: .
+    labels:
+      - com.host.description=autograder
     restart: on-failure
     ports:
       - "5000:5000"
