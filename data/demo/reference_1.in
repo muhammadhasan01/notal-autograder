@@ -1,0 +1,13 @@
+function SearchX (L: List, X : infotype) -> boolean
+KAMUS
+    Pt : address
+    Found : boolean
+ALGORITMA
+    if (IsEmpty(L)) then
+        -> false
+    else
+        Pt <- First(L)
+        while (Next(Pt) ≠ Nil and Info(Pt) < X ) do
+            Pt <- Next(Pt)
+        { Next(Pt) = Nil or Info(Pt) = X or Info(Pt) > X }
+        -> Info(Pt) = X
