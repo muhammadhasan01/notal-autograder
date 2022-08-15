@@ -1,7 +1,7 @@
 # Notal Autograder
 **Author: Muhammad Hasan**
 
-Algorithmic Notation Autograder using Control Flow Graph (CFG) Similarity.
+Algorithmic Notation Autograder Based on Control Flow Graph Similarity.
 
 # Dependencies
 
