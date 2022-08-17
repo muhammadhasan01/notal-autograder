@@ -1,7 +1,7 @@
 # Notal Autograder
 **Author: Muhammad Hasan**
 
-Algorithmic Notation Autograder Based on Control Flow Graph Similarity.
+Notasi Algoritmik Autograder Based on Control Flow Graph.
 
 # Dependencies
 
