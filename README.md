@@ -1,7 +1,7 @@
 # Notal Autograder
 **Author: Muhammad Hasan**
 
-Notasi Algoritmik Autograder Based on Control Flow Graph.
+Control Flow Graph Based Notasi Algoritmik Autograder.
 
 # Dependencies
 
